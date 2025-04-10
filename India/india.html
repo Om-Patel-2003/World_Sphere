@@ -1,0 +1,253 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Explore India</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+        <style>
+            :root {
+                --saffron: #FF9933;
+                --white: #FFFFFF;
+                --green: #138808;
+                --navy: #000080;
+            }
+        
+            body {
+                background: linear-gradient(135deg, 
+                    var(--saffron) 0%,
+                    var(--white) 50%,
+                    var(--green) 100%
+                );
+                color: #ffffff;
+                font-family: 'Poppins', sans-serif;
+                min-height: 100vh;
+                padding: 40px 20px;
+                margin: 0;
+                animation: gradientBG 15s ease infinite;
+                background-size: 200% 200%;
+            }
+        
+            @keyframes gradientBG {
+                0% { background-position: 0% 50% }
+                50% { background-position: 100% 50% }
+                100% { background-position: 0% 50% }
+            }
+        
+            .main-container {
+                width: 95%;
+                max-width: 1400px;
+                margin: 20px auto;
+                background: rgba(0, 0, 0, 0.85);
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                padding: 40px;
+                backdrop-filter: blur(10px);
+                border: 4px solid;
+                border-image: linear-gradient(45deg, var(--saffron), var(--white), var(--green)) 1;
+                position: relative;
+                overflow: hidden;
+            }
+        
+            .main-container::before {
+                content: '';
+                position: absolute;
+                top: -2px;
+                right: -2px;
+                bottom: -2px;
+                left: -2px;
+                background: linear-gradient(45deg, var(--saffron), var(--white), var(--green));
+                border-radius: 22px;
+                z-index: -1;
+                filter: blur(10px);
+                opacity: 0.5;
+            }
+        
+            .greeting {
+                font-size: 3.5rem;
+                font-weight: 800;
+                text-align: center;
+                margin-bottom: 40px;
+                background: linear-gradient(45deg, var(--saffron), var(--green));
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+                animation: titleGlow 2s ease-in-out infinite;
+                position: relative;
+                padding-bottom: 20px;
+            }
+        
+            .greeting::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 200px;
+                height: 3px;
+                background: linear-gradient(90deg, 
+                    transparent,
+                    var(--saffron),
+                    var(--white),
+                    var(--green),
+                    transparent
+                );
+            }
+        
+            @keyframes titleGlow {
+                0%, 100% { text-shadow: 0 0 20px rgba(255, 153, 51, 0.5); }
+                50% { text-shadow: 0 0 30px rgba(19, 136, 8, 0.5); }
+            }
+        
+            .grid-container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+                padding: 20px;
+            }
+        
+            .grid-item {
+                background: rgba(0, 0, 0, 0.7);
+                padding: 30px;
+                border-radius: 15px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                transition: all 0.4s ease;
+                border: 1px solid var(--saffron);
+                position: relative;
+                overflow: hidden;
+            }
+        
+            .grid-item::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 153, 51, 0.1),
+                    transparent
+                );
+                transition: 0.5s;
+            }
+        
+            .grid-item:hover::before {
+                left: 100%;
+            }
+        
+            .grid-item:hover {
+                transform: translateY(-10px);
+                border-color: var(--green);
+                box-shadow: 0 15px 30px rgba(255, 153, 51, 0.2);
+            }
+        
+            .grid-item h1 {
+                font-size: 2rem;
+                color: var(--saffron);
+                margin-bottom: 15px;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+        
+            .grid-item p {
+                color: var(--white);
+                font-size: 1.1rem;
+                line-height: 1.6;
+                margin-bottom: 20px;
+            }
+        
+            .explore-btn {
+                padding: 12px 30px;
+                background: linear-gradient(45deg, var(--saffron), var(--green));
+                border: none;
+                color: white;
+                font-size: 1.1rem;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+        
+            .explore-btn:hover {
+                background: linear-gradient(45deg, var(--green), var(--saffron));
+                transform: scale(1.05);
+                box-shadow: 0 8px 20px rgba(255, 153, 51, 0.4);
+            }
+        
+            @media (max-width: 968px) {
+                .greeting {
+                    font-size: 2.5rem;
+                }
+                
+                .grid-container {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                }
+        
+                .grid-item h1 {
+                    font-size: 1.8rem;
+                }
+        
+                .main-container {
+                    padding: 20px;
+                }
+            }
+        
+            @media (max-width: 480px) {
+                .greeting {
+                    font-size: 2rem;
+                }
+        
+                .grid-item {
+                    padding: 20px;
+                }
+        
+                .explore-btn {
+                    padding: 10px 20px;
+                    font-size: 1rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main-container">
+            <div class="greeting">🙏 Namaste! Welcome to India 🇮🇳</div>
+    
+            <div class="grid-container">
+                <div class="grid-item">
+                    <h1>🏰 Places to Visit</h1>
+                    <p>Explore Taj Mahal, Jaipur, Kerala, Goa, and many more!</p>
+                    <button class="explore-btn" onclick="openPage('places.html')">Explore More</button>
+                </div>
+                
+                <div class="grid-item">
+                    <h1>🎭 Culture</h1>
+                    <p>Experience vibrant festivals, music, dance, and traditions.</p>
+                    <button class="explore-btn" onclick="openPage('culture.html')">Explore More</button>
+                </div>
+                
+                <div class="grid-item">
+                    <h1>🍛 Famous Foods</h1>
+                    <p>Enjoy Biryani, Butter Chicken, Masala Dosa, and more!</p>
+                    <button class="explore-btn" onclick="openPage('food.html')">Explore More</button>
+                </div>
+                
+                <div class="grid-item">
+                    <h1>💡 Specialties</h1>
+                    <p>India is famous for Ayurveda, Yoga, IT, and handicrafts.</p>
+                    <button class="explore-btn" onclick="openPage('specialties.html')">Explore More</button>
+                </div>
+            </div>
+        </div>
+    
+        <script>
+            function openPage(page) {
+                window.open(page, "_blank");
+            }
+        </script>
+    </body>
+    </html>
