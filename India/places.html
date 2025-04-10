@@ -3,25 +3,655 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Places to Visit</title>
+    <title>Seven Wonders of India</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --green: #138808;
+        }
+
         body {
-            background: linear-gradient(to bottom, #FF9933, white, #138808);
-            text-align: center;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, var(--saffron), var(--white), var(--green));
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            animation: gradientBG 15s ease infinite;
+            background-size: 200% 200%;
         }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 4px solid;
+            border-image: linear-gradient(45deg, var(--saffron), var(--white), var(--green)) 1;
+        }
+
         h1 {
-            margin-top: 50px;
-            color: black;
+            text-align: center;
+            color: var(--saffron);
+            font-size: 3rem;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: titleGlow 2s ease-in-out infinite;
         }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 153, 51, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(19, 136, 8, 0.5); }
+        }
+
+        .slider-container {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .wonder-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        .wonder-card.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .wonder-card.prev {
+            opacity: 0;
+            transform: translateX(-100%);
+        }
+
+        .wonder-image {
+            position: relative;
+            height: 60%;
+            overflow: hidden;
+        }
+
+        .wonder-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: var(--saffron);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .play-button i {
+            color: #000;
+            font-size: 24px;
+        }
+
+        .wonder-info {
+            padding: 20px;
+            color: var(--white);
+        }
+
+        .wonder-info h2 {
+            color: var(--saffron);
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--white);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--saffron);
+        }
+
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--saffron);
+            transform: scale(1.2);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+            transition: all 0.5s ease;
+            transform: scale(0.7);
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            right: -40px;
+            top: -40px;
+            color: white;
+            font-size: 35px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: var(--saffron);
+            transform: rotate(90deg);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .slider-container {
+                height: 400px;
+            }
+
+            .wonder-info h2 {
+                font-size: 1.5rem;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+
+            .close-modal {
+                right: 0;
+                top: -50px;
+            }
+        }
+        .arrow-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+
+    .arrow-btn:hover {
+        background: var(--saffron);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .arrow-btn i {
+        color: white;
+        font-size: 24px;
+    }
+
+    .prev-arrow {
+        left: 20px;
+    }
+
+    .next-arrow {
+        right: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .arrow-btn {
+            width: 40px;
+            height: 40px;
+        }
+
+        .arrow-btn i {
+            font-size: 20px;
+        }
+
+        .prev-arrow {
+            left: 10px;
+        }
+
+        .next-arrow {
+            right: 10px;
+        }
+    }
+   /* Remove the duplicate h1 styles around line 316-330 and update the original h1 styles near the beginning of the <style> section with: */
+
+h1 {
+    text-align: center;
+    color: var(--saffron);
+    font-size: 3rem;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, var(--saffron), var(--white), var(--green));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: titleGlow 2s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+    0%, 100% { 
+        text-shadow: 0 0 20px rgba(255, 153, 51, 0.5);
+        transform: scale(1);
+    }
+    50% { 
+        text-shadow: 0 0 30px rgba(19, 136, 8, 0.5);
+        transform: scale(1.05);
+    }
+}
     </style>
 </head>
 <body>
-    <h1>🏰 Famous Places in India</h1>
-    <ul>
-        <li>Taj Mahal</li>
-        <li>Jaipur - The Pink City</li>
-        <li>Goa Beaches</li>
-    </ul>
+    <div class="container">
+        <h1>🏛️ Places To Visit In India</h1>
+        
+        <div class="slider-container">
+            <button class="arrow-btn prev-arrow" aria-label="Previous slide">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="arrow-btn next-arrow" aria-label="Next slide">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <!-- Taj Mahal -->
+            <div class="wonder-card">
+                <div class="wonder-image">
+                    <img src="https://source.unsplash.com/800x600/?taj-mahal" alt="Taj Mahal">
+                    <div class="play-button" data-video="https://www.youtube.com/embed/49HTIoCccDY">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="wonder-info">
+                    <h2>Taj Mahal</h2>
+                    <p>📍 Agra, Uttar Pradesh<br>
+                    The ivory-white marble mausoleum, built between 1632-1653, is considered the jewel of Mughal architecture in India.</p>
+                </div>
+            </div>
+        
+                <!-- Konark Sun Temple -->
+                <div class="wonder-card">
+                    <div class="wonder-image">
+                        <img src="https://source.unsplash.com/800x600/?konark-temple" alt="Konark Sun Temple">
+                        <div class="play-button" data-video="https://www.youtube.com/embed/Y_1hxgn_0Ig">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="wonder-info">
+                        <h2>Konark Sun Temple</h2>
+                        <p>📍 Odisha<br>
+                        A 13th-century temple dedicated to the Sun God, designed as a massive chariot with intricate stone carvings.</p>
+                    </div>
+                </div>
+        
+                <!-- Khajuraho Temples -->
+                <div class="wonder-card">
+                    <div class="wonder-image">
+                        <img src="https://source.unsplash.com/800x600/?khajuraho" alt="Khajuraho Temples">
+                        <div class="play-button" data-video="https://www.youtube.com/embed/0GZKy0WIeGE">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="wonder-info">
+                        <h2>Khajuraho Temples</h2>
+                        <p>📍 Madhya Pradesh<br>
+                        Famous for their nagara-style architectural symbolism and erotic sculptures, built during the Chandela dynasty.</p>
+                    </div>
+                </div>
+        
+                <!-- Hampi -->
+                <div class="wonder-card">
+                    <div class="wonder-image">
+                        <img src="https://source.unsplash.com/800x600/?hampi" alt="Hampi">
+                        <div class="play-button" data-video="https://www.youtube.com/embed/RUtH3BXJoJ4">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="wonder-info">
+                        <h2>Hampi</h2>
+                        <p>📍 Karnataka<br>
+                        The ancient capital of the Vijayanagara Empire, known for its stunning ruins, temples, and boulder-strewn landscape.</p>
+                    </div>
+                </div>
+        
+                <!-- Ajanta Caves -->
+                <div class="wonder-card">
+                    <div class="wonder-image">
+                        <img src="https://source.unsplash.com/800x600/?ajanta-caves" alt="Ajanta Caves">
+                        <div class="play-button" data-video="https://www.youtube.com/embed/pTU9FSpKn9c">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="wonder-info">
+                        <h2>Ajanta Caves</h2>
+                        <p>📍 Maharashtra<br>
+                        Rock-cut cave monuments dating from the 2nd century BCE, featuring Buddhist artwork and ancient paintings.</p>
+                    </div>
+                </div>
+        
+                <!-- Mahabalipuram -->
+                <div class="wonder-card">
+                    <div class="wonder-image">
+                        <img src="https://source.unsplash.com/800x600/?mahabalipuram" alt="Mahabalipuram">
+                        <div class="play-button" data-video="https://www.youtube.com/embed/YpYJEI3wWyE">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="wonder-info">
+                        <h2>Mahabalipuram</h2>
+                        <p>📍 Tamil Nadu<br>
+                        A 7th-century port city featuring rathas (temples in the form of chariots), mandapas, and the famous Shore Temple.</p>
+                    </div>
+                </div>
+        
+                <!-- Golden Temple -->
+                <div class="wonder-card">
+                    <div class="wonder-image">
+                        <img src="https://source.unsplash.com/800x600/?golden-temple-amritsar" alt="Golden Temple">
+                        <div class="play-button" data-video="https://www.youtube.com/embed/ZEf7qxKFyNI">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="wonder-info">
+                        <h2>Golden Temple</h2>
+                        <p>📍 Amritsar, Punjab<br>
+                        The holiest Gurdwara of Sikhism, known for its distinctive gold-plated architecture and spiritual significance.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add other wonder cards here following the same structure -->
+            <!-- Copy the wonder-card div structure for each monument -->
+            
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn prev-btn">Previous</button>
+            <button class="nav-btn next-btn">Next</button>
+        </div>
+
+        <div class="dots"></div>
+    </div>
+
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="video-container">
+                <iframe frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Slider elements
+        const wonderCards = document.querySelectorAll('.wonder-card');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const prevArrow = document.querySelector('.prev-arrow');
+        const nextArrow = document.querySelector('.next-arrow');
+        const dotsContainer = document.querySelector('.dots');
+        let currentIndex = 0;
+        let slideInterval;
+    
+        // Create navigation dots
+        wonderCards.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+    
+        // Update slide positions and states
+        function updateSlide() {
+            wonderCards.forEach((card, index) => {
+                card.classList.remove('active', 'prev');
+                if (index === currentIndex) {
+                    card.classList.add('active');
+                } else if (index === (currentIndex - 1 + wonderCards.length) % wonderCards.length) {
+                    card.classList.add('prev');
+                }
+            });
+    
+            // Update navigation dots
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+    
+        // Navigation functions
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % wonderCards.length;
+            updateSlide();
+        }
+    
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + wonderCards.length) % wonderCards.length;
+            updateSlide();
+        }
+    
+        function goToSlide(index) {
+            currentIndex = index;
+            updateSlide();
+            resetInterval();
+        }
+    
+        // Reset autoplay interval
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000); // 5 seconds interval
+        }
+    
+        // Event listeners for navigation
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetInterval();
+        });
+    
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetInterval();
+        });
+    
+        prevArrow.addEventListener('click', () => {
+            prevSlide();
+            resetInterval();
+        });
+    
+        nextArrow.addEventListener('click', () => {
+            nextSlide();
+            resetInterval();
+        });
+    
+        // Video modal functionality
+        const modal = document.getElementById('videoModal');
+        const iframe = modal.querySelector('iframe');
+        const closeBtn = modal.querySelector('.close-modal');
+    
+        document.querySelectorAll('.play-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const videoUrl = button.getAttribute('data-video');
+                iframe.src = videoUrl;
+                modal.style.display = 'block';
+                clearInterval(slideInterval); // Pause slideshow
+                setTimeout(() => {
+                    modal.classList.add('show');
+                }, 10);
+            });
+        });
+    
+        function closeModal() {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                iframe.src = '';
+                resetInterval(); // Resume slideshow
+            }, 500);
+        }
+    
+        // Modal close events
+        closeBtn.addEventListener('click', closeModal);
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+                resetInterval();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+                resetInterval();
+            } else if (e.key === 'Escape' && modal.style.display === 'block') {
+                closeModal();
+            }
+        });
+    
+        // Touch events for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+    
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+    
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+    
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const swipeLength = touchEndX - touchStartX;
+    
+            if (Math.abs(swipeLength) > swipeThreshold) {
+                if (swipeLength > 0) {
+                    prevSlide();
+                } else {
+                    nextSlide();
+                }
+                resetInterval();
+            }
+        }
+    
+        // Initialize slideshow
+        updateSlide();
+        resetInterval();
+    </script>
 </body>
 </html>
