@@ -13,12 +13,17 @@
             --green: #138808;
         }
 
+        /* Update body styles */
         body {
             background: linear-gradient(135deg, var(--saffron), var(--white), var(--green));
             font-family: 'Poppins', sans-serif;
             margin: 0;
-            padding: 20px;
-            min-height: 100vh;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
             animation: gradientBG 15s ease infinite;
             background-size: 200% 200%;
         }
@@ -29,10 +34,15 @@
             100% { background-position: 0% 50% }
         }
 
+        /* Update container styles */
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px;
+            width: 85%;  /* reduced from 95% */
+            max-width: 1200px;  /* reduced from 1400px */
+            height: 85vh;
+            margin: 0;
+            padding: 2vh 2vw;
+            display: flex;
+            flex-direction: column;
             background: rgba(0, 0, 0, 0.85);
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -41,32 +51,42 @@
             border-image: linear-gradient(45deg, var(--saffron), var(--white), var(--green)) 1;
         }
 
+        /* Update title styles */
         h1 {
             text-align: center;
             color: var(--saffron);
-            font-size: 3rem;
-            margin-bottom: 40px;
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            margin: 1vh 0;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, var(--saffron), var(--white), var(--green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             animation: titleGlow 2s ease-in-out infinite;
         }
 
         @keyframes titleGlow {
-            0%, 100% { text-shadow: 0 0 20px rgba(255, 153, 51, 0.5); }
-            50% { text-shadow: 0 0 30px rgba(19, 136, 8, 0.5); }
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 153, 51, 0.5); transform: scale(1); }
+            50% { text-shadow: 0 0 30px rgba(19, 136, 8, 0.5); transform: scale(1.05); }
         }
 
+        /* Update slider container */
         .slider-container {
+            flex: 1;
             position: relative;
-            height: 500px;
+            height: auto;
+            min-height: 0;
+            margin-bottom: 1vh;
             overflow: hidden;
             border-radius: 15px;
-            margin-bottom: 30px;
         }
 
+        /* Update wonder card styles */
         .wonder-card {
             position: absolute;
             width: 100%;
-            height: 100%;
+            height: calc(100% - 2vh);
+            margin: 1vh 0;
             opacity: 0;
             transform: translateX(100%);
             transition: all 0.5s ease;
@@ -125,58 +145,21 @@
         }
 
         .wonder-info {
-            padding: 20px;
+            padding: 10px 20px 5px;  /* Reduced bottom padding */
             color: var(--white);
+            margin-top: auto;  /* Push to bottom */
         }
 
         .wonder-info h2 {
             color: var(--saffron);
-            margin-bottom: 15px;
+            margin-bottom: 10px;  /* Reduced margin */
             font-size: 2rem;
         }
 
-        .navigation {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .nav-btn {
-            padding: 12px 25px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: var(--white);
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-        }
-
-        .nav-btn:hover {
-            background: var(--saffron);
-        }
-
-        .dots {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .dot.active {
-            background: var(--saffron);
-            transform: scale(1.2);
+        .wonder-info p {
+            margin: 0;
+            margin-bottom: 15px;   /* Remove default paragraph margin */
+            line-height: 1.4;  /* Slightly reduced line height */
         }
 
         /* Modal styles */
@@ -250,9 +233,38 @@
             border: none;
         }
 
+        /* Update media queries */
+        @media (max-width: 1200px) {
+            .container {
+                width: 90%;
+                margin: 10px auto;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                width: 90%;
+                height: 88vh;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .slider-container {
+                height: 400px;
+            }
+
+            .wonder-info h2 {
+                font-size: 1.8rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .container {
-                padding: 15px;
+                width: 92%;
+                height: 90vh;
+                padding: 1.5vh 2vw;
             }
 
             h1 {
@@ -260,7 +272,7 @@
             }
 
             .slider-container {
-                height: 400px;
+                height: 350px;
             }
 
             .wonder-info h2 {
@@ -275,85 +287,107 @@
                 right: 0;
                 top: -50px;
             }
+
+            .arrow-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .arrow-btn i {
+                font-size: 20px;
+            }
+
+            .prev-arrow {
+                left: 10px;
+            }
+
+            .next-arrow {
+                right: 10px;
+            }
         }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+                height: 92vh;
+                padding: 1vh 1.5vw;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .slider-container {
+                height: 300px;
+            }
+
+            .wonder-info {
+                padding: 15px;
+            }
+
+            .wonder-info h2 {
+                font-size: 1.3rem;
+            }
+
+            .nav-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
         .arrow-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-        z-index: 10;
-    }
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
 
-    .arrow-btn:hover {
-        background: var(--saffron);
-        transform: translateY(-50%) scale(1.1);
-    }
-
-    .arrow-btn i {
-        color: white;
-        font-size: 24px;
-    }
-
-    .prev-arrow {
-        left: 20px;
-    }
-
-    .next-arrow {
-        right: 20px;
-    }
-
-    @media (max-width: 768px) {
-        .arrow-btn {
-            width: 40px;
-            height: 40px;
+        .arrow-btn:hover {
+            background: var(--saffron);
+            transform: translateY(-50%) scale(1.1);
         }
 
         .arrow-btn i {
-            font-size: 20px;
+            color: white;
+            font-size: 24px;
         }
 
         .prev-arrow {
-            left: 10px;
+            left: 20px;
         }
 
         .next-arrow {
-            right: 10px;
+            right: 20px;
         }
-    }
-   /* Remove the duplicate h1 styles around line 316-330 and update the original h1 styles near the beginning of the <style> section with: */
 
-h1 {
-    text-align: center;
-    color: var(--saffron);
-    font-size: 3rem;
-    margin-bottom: 40px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(45deg, var(--saffron), var(--white), var(--green));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: titleGlow 2s ease-in-out infinite;
-}
+        @media (max-width: 768px) {
+            .arrow-btn {
+                width: 40px;
+                height: 40px;
+            }
 
-@keyframes titleGlow {
-    0%, 100% { 
-        text-shadow: 0 0 20px rgba(255, 153, 51, 0.5);
-        transform: scale(1);
-    }
-    50% { 
-        text-shadow: 0 0 30px rgba(19, 136, 8, 0.5);
-        transform: scale(1.05);
-    }
-}
+            .arrow-btn i {
+                font-size: 20px;
+            }
+
+            .prev-arrow {
+                left: 10px;
+            }
+
+            .next-arrow {
+                right: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -473,18 +507,10 @@ h1 {
                 </div>
             </div>
 
-            <!-- Add other wonder cards here following the same structure -->
-            <!-- Copy the wonder-card div structure for each monument -->
-            
+                   
         </div>
 
-        <div class="navigation">
-            <button class="nav-btn prev-btn">Previous</button>
-            <button class="nav-btn next-btn">Next</button>
-        </div>
-
-        <div class="dots"></div>
-    </div>
+    </div><!-- End of container -->
 
     <div class="modal" id="videoModal">
         <div class="modal-content">
@@ -498,21 +524,10 @@ h1 {
     <script>
         // Slider elements
         const wonderCards = document.querySelectorAll('.wonder-card');
-        const prevBtn = document.querySelector('.prev-btn');
-        const nextBtn = document.querySelector('.next-btn');
         const prevArrow = document.querySelector('.prev-arrow');
         const nextArrow = document.querySelector('.next-arrow');
-        const dotsContainer = document.querySelector('.dots');
         let currentIndex = 0;
         let slideInterval;
-    
-        // Create navigation dots
-        wonderCards.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            dot.addEventListener('click', () => goToSlide(index));
-            dotsContainer.appendChild(dot);
-        });
     
         // Update slide positions and states
         function updateSlide() {
@@ -523,11 +538,6 @@ h1 {
                 } else if (index === (currentIndex - 1 + wonderCards.length) % wonderCards.length) {
                     card.classList.add('prev');
                 }
-            });
-    
-            // Update navigation dots
-            document.querySelectorAll('.dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentIndex);
             });
         }
     
@@ -555,16 +565,6 @@ h1 {
         }
     
         // Event listeners for navigation
-        prevBtn.addEventListener('click', () => {
-            prevSlide();
-            resetInterval();
-        });
-    
-        nextBtn.addEventListener('click', () => {
-            nextSlide();
-            resetInterval();
-        });
-    
         prevArrow.addEventListener('click', () => {
             prevSlide();
             resetInterval();

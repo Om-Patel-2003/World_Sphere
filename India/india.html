@@ -1,5 +1,4 @@
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -24,8 +23,12 @@
                 color: #ffffff;
                 font-family: 'Poppins', sans-serif;
                 min-height: 100vh;
-                padding: 40px 20px;
                 margin: 0;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
                 animation: gradientBG 15s ease infinite;
                 background-size: 200% 200%;
             }
@@ -37,18 +40,21 @@
             }
         
             .main-container {
-                width: 95%;
-                max-width: 1400px;
-                margin: 20px auto;
+                width: 85%; /* reduced from 95% */
+                max-width: 1200px; /* reduced from 1400px */
+                height: 85vh; /* reduced from 95vh */
+                margin: 0 auto;
                 background: rgba(0, 0, 0, 0.85);
                 border-radius: 20px;
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-                padding: 40px;
+                padding: 2vh 2vw;
                 backdrop-filter: blur(10px);
                 border: 4px solid;
                 border-image: linear-gradient(45deg, var(--saffron), var(--white), var(--green)) 1;
                 position: relative;
                 overflow: hidden;
+                display: flex;
+                flex-direction: column;
             }
         
             .main-container::before {
@@ -66,10 +72,10 @@
             }
         
             .greeting {
-                font-size: 3.5rem;
+                font-size: clamp(1.8rem, 4vw, 3.5rem);
                 font-weight: 800;
                 text-align: center;
-                margin-bottom: 40px;
+                margin-bottom: 2vh;
                 background: linear-gradient(45deg, var(--saffron), var(--green));
                 -webkit-background-clip: text;
                 background-clip: text;
@@ -103,21 +109,26 @@
             }
         
             .grid-container {
+                flex: 1;
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
-                padding: 20px;
+                gap: 2vh;
+                padding: 1vh;
+                height: auto;
             }
         
             .grid-item {
                 background: rgba(0, 0, 0, 0.7);
-                padding: 30px;
+                padding: 2vh 2vw;
                 border-radius: 15px;
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 transition: all 0.4s ease;
                 border: 1px solid var(--saffron);
                 position: relative;
                 overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
             }
         
             .grid-item::before {
@@ -147,17 +158,17 @@
             }
         
             .grid-item h1 {
-                font-size: 2rem;
+                font-size: clamp(1.3rem, 2.5vw, 2rem);
                 color: var(--saffron);
-                margin-bottom: 15px;
+                margin-bottom: 1vh;
                 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             }
         
             .grid-item p {
                 color: var(--white);
-                font-size: 1.1rem;
+                font-size: clamp(0.9rem, 1.5vw, 1.1rem);
                 line-height: 1.6;
-                margin-bottom: 20px;
+                margin-bottom: 2vh;
             }
         
             .explore-btn {
@@ -179,14 +190,21 @@
                 box-shadow: 0 8px 20px rgba(255, 153, 51, 0.4);
             }
         
+            @media (max-width: 1200px) {
+                .main-container {
+                    width: 90%;
+                    margin: 10px auto;
+                }
+            }
+
             @media (max-width: 968px) {
                 .greeting {
                     font-size: 2.5rem;
                 }
                 
                 .grid-container {
-                    grid-template-columns: 1fr;
-                    gap: 20px;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 1.5vh;
                 }
         
                 .grid-item h1 {
@@ -194,24 +212,65 @@
                 }
         
                 .main-container {
-                    padding: 20px;
+                    padding: 30px;
+                }
+            }
+        
+            @media (max-width: 768px) {
+                .greeting {
+                    font-size: 2rem;
+                }
+                
+                .grid-container {
+                    grid-template-columns: 1fr;
+                    gap: 1.5vh;
+                }
+        
+                .grid-item h1 {
+                    font-size: 1.5rem;
+                }
+        
+                .main-container {
+                    width: 92%;
+                    height: 88vh;
+                    padding: 15px;
+                }
+        
+                .explore-btn {
+                    padding: 12px 25px;
+                    font-size: 1rem;
+                }
+        
+                .grid-item {
+                    padding: 1.5vh 2vw;
                 }
             }
         
             @media (max-width: 480px) {
                 .greeting {
-                    font-size: 2rem;
+                    font-size: 1.8rem;
                 }
         
                 .grid-item {
-                    padding: 20px;
+                    padding: 1vh 2vw;
+                }
+        
+                .grid-item h1 {
+                    font-size: 1.3rem;
                 }
         
                 .explore-btn {
                     padding: 10px 20px;
-                    font-size: 1rem;
+                    font-size: 0.9rem;
+                }
+        
+                .main-container {
+                    height: 90vh;
+                    width: 95%;
+                    padding: 12px;
                 }
             }
+            
         </style>
     </head>
     <body>
