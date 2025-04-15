@@ -41,12 +41,13 @@
             padding: 2vh 2vw;
             display: flex;
             flex-direction: column;
-            background: rgba(0, 0, 0, 0.85);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
             border: 4px solid;
             border-image: linear-gradient(45deg, var(--red), var(--white), var(--blue)) 1;
+            gap: 20px;
         }
 
         h1 {
@@ -67,80 +68,201 @@
             50% { text-shadow: 0 0 30px rgba(10, 49, 97, 0.5); transform: scale(1.05); }
         }
 
-        .culture-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
+        .culture-section {
+            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
             overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--red) rgba(255, 255, 255, 0.1);
+        }
+
+        .culture-slide {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            padding: 15px;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.4s ease-out;
+            height: calc(100% - 40px);
+        }
+
+        .culture-slide.active {
+            display: grid;
+            opacity: 1;
+            transform: scale(1);
         }
 
         .culture-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2));
+            border-radius: 20px;
             overflow: hidden;
-            transition: transform 0.3s;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            height: 400px;
+            display: flex;
+            flex-direction: column;
         }
 
         .culture-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .culture-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--red);
+            box-shadow: 0 10px 25px rgba(179, 25, 66, 0.2);
         }
 
         .culture-info {
-            padding: 20px;
+            padding: 25px;
             color: white;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .culture-info h2 {
             color: var(--red);
-            margin: 0 0 10px;
+            margin: 0;
+            font-size: 1.6rem;
         }
 
         .culture-info p {
             margin: 0;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 1rem;
+            color: #f0f0f0;
+        }
+
+        .slide-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .slide-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+
+        .slide-btn.active {
+            background: var(--red);
+            color: white;
+            font-weight: 600;
+        }
+
+        @media (max-width: 1200px) {
+            .culture-slide {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 92%;
+                height: 90vh;
+            }
+            
+            .culture-slide {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🗽 American Culture</h1>
-        <div class="culture-grid">
-            <div class="culture-card">
-                <img src="https://source.unsplash.com/800x600/?american-sports" alt="Sports" class="culture-image">
-                <div class="culture-info">
-                    <h2>Sports</h2>
-                    <p>Baseball, American Football, and Basketball culture</p>
+        <h1>🎭 American Culture</h1>
+        <div class="culture-section">
+            <div class="culture-slide active" id="culture-1">
+                <div class="culture-card">
+                    <div class="culture-info">
+                        <h2>🎬 Hollywood</h2>
+                        <p>The world's entertainment capital, producing blockbuster movies and shaping global pop culture since the early 20th century.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-info">
+                        <h2>🏈 Sports</h2>
+                        <p>From NFL Football to NBA Basketball, MLB Baseball, and NHL Hockey - sports are integral to American culture.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-info">
+                        <h2>🎵 Music</h2>
+                        <p>Birthplace of Jazz, Blues, Rock & Roll, Hip-Hop, and countless other influential music genres.</p>
+                    </div>
                 </div>
             </div>
-            <div class="culture-card">
-                <img src="https://source.unsplash.com/800x600/?hollywood" alt="Entertainment" class="culture-image">
-                <div class="culture-info">
-                    <h2>Entertainment</h2>
-                    <p>Hollywood, Music Industry, and Broadway shows</p>
+            <div class="culture-slide" id="culture-2">
+                <div class="culture-card">
+                    <div class="culture-info">
+                        <h2>🎨 Art & Innovation</h2>
+                        <p>From Abstract Expressionism to Pop Art, America has been at the forefront of artistic innovation.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="culture-card">
-                <img src="https://source.unsplash.com/800x600/?american-food" alt="Food" class="culture-image">
-                <div class="culture-info">
-                    <h2>Food Culture</h2>
-                    <p>BBQ, Fast Food, and Regional Cuisines</p>
+                <div class="culture-card">
+                    <div class="culture-info">
+                        <h2>🎊 Festivals</h2>
+                        <p>Celebrations like Thanksgiving, Independence Day, and diverse cultural festivals showcase American unity in diversity.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="culture-card">
-                <img src="https://source.unsplash.com/800x600/?american-holiday" alt="Holidays" class="culture-image">
-                <div class="culture-info">
-                    <h2>Holidays</h2>
-                    <p>Thanksgiving, 4th of July, and Super Bowl Sunday</p>
+                <div class="culture-card">
+                    <div class="culture-info">
+                        <h2>🌐 Diversity</h2>
+                        <p>A melting pot of cultures, traditions, and customs from around the world, making America uniquely diverse.</p>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="slide-controls">
+            <button class="slide-btn active" data-slide="culture-1">1</button>
+            <button class="slide-btn" data-slide="culture-2">2</button>
+        </div>
     </div>
+
+    <script>
+        const slideButtons = document.querySelectorAll('.slide-btn');
+        const slides = document.querySelectorAll('.culture-slide');
+        let slideInterval;
+
+        function startAutoSlide() {
+            slideInterval = setInterval(() => {
+                const currentSlide = document.querySelector('.culture-slide.active');
+                const currentBtn = document.querySelector('.slide-btn.active');
+                const nextSlide = currentSlide.nextElementSibling || document.querySelector('.culture-slide:first-child');
+                const nextBtn = currentBtn.nextElementSibling || document.querySelector('.slide-btn:first-child');
+
+                currentSlide.classList.remove('active');
+                currentBtn.classList.remove('active');
+                nextSlide.classList.add('active');
+                nextBtn.classList.add('active');
+            }, 4000);
+        }
+
+        startAutoSlide();
+
+        slideButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                clearInterval(slideInterval);
+                const target = button.dataset.slide;
+                
+                slideButtons.forEach(b => b.classList.remove('active'));
+                slides.forEach(s => s.classList.remove('active'));
+                
+                button.classList.add('active');
+                document.getElementById(target).classList.add('active');
+                
+                setTimeout(startAutoSlide, 2000);
+            });
+        });
+    </script>
 </body>
 </html>

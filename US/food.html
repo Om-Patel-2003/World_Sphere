@@ -13,7 +13,6 @@
             --red: #B31942;
         }
 
-        /* Same base styles as culture.html */
         body {
             background: linear-gradient(135deg, var(--red), var(--white), var(--blue));
             font-family: 'Poppins', sans-serif;
@@ -28,7 +27,6 @@
             background-size: 200% 200%;
         }
 
-        /* Same animations and container styles as culture.html */
         @keyframes gradientBG {
             0% { background-position: 0% 50% }
             50% { background-position: 100% 50% }
@@ -43,20 +41,68 @@
             padding: 2vh 2vw;
             display: flex;
             flex-direction: column;
-            background: rgba(0, 0, 0, 0.85);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
             border: 4px solid;
             border-image: linear-gradient(45deg, var(--red), var(--white), var(--blue)) 1;
         }
 
-        /* Same card grid styles as culture.html */
+        h1 {
+            text-align: center;
+            color: var(--red);
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            margin: 1vh 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, var(--red), var(--white), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 8px 25px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            border: 1px solid transparent;
+        }
+
+        .tab-btn.active {
+            background: var(--red);
+            color: white;
+        }
+
+        .food-section {
+            display: none;
+            height: calc(100% - 100px);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .food-section.active {
+            display: block;
+        }
+
         .food-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             padding: 20px;
+            height: 100%;
             overflow-y: auto;
         }
 
@@ -71,9 +117,6 @@
             transform: translateY(-5px);
         }
 
-        /* Same heading and text styles as culture.html */
-        h1, h2, p { /* Same styles as culture.html */ }
-
         .food-image {
             width: 100%;
             height: 200px;
@@ -81,44 +124,126 @@
         }
 
         .food-info {
-            padding: 20px;
+            padding: 15px;
             color: white;
+        }
+
+        .food-info h2 {
+            color: var(--red);
+            margin: 0 0 10px;
+            font-size: 1.5rem;
+        }
+
+        .food-info .details {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin: 5px 0;
+        }
+
+        @media (max-width: 1200px) {
+            .food-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 92%;
+                height: 90vh;
+            }
+            
+            .food-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🍔 American Cuisine</h1>
-        <div class="food-grid">
-            <div class="food-card">
-                <img src="https://source.unsplash.com/800x600/?hamburger" alt="Burgers" class="food-image">
-                <div class="food-info">
-                    <h2>Burgers</h2>
-                    <p>Classic American hamburgers and cheeseburgers</p>
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="classic">Classic</button>
+            <button class="tab-btn" data-tab="regional">Regional</button>
+        </div>
+        
+        <div class="food-section active" id="classic">
+            <div class="food-grid">
+                <div class="food-card">
+                    <img src="https://source.unsplash.com/800x600/?hamburger" alt="Hamburger" class="food-image">
+                    <div class="food-info">
+                        <h2>Hamburger</h2>
+                        <p>The quintessential American fast food</p>
+                        <span class="details">Main ingredients: Beef patty, bun, lettuce, tomato</span>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="https://source.unsplash.com/800x600/?hotdog" alt="Hot Dog" class="food-image">
+                    <div class="food-info">
+                        <h2>Hot Dog</h2>
+                        <p>Ballpark favorite</p>
+                        <span class="details">Main ingredients: Sausage, bun, mustard, ketchup</span>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="https://source.unsplash.com/800x600/?bbq-ribs" alt="BBQ Ribs" class="food-image">
+                    <div class="food-info">
+                        <h2>BBQ Ribs</h2>
+                        <p>Classic American barbecue</p>
+                        <span class="details">Main ingredients: Pork ribs, BBQ sauce</span>
+                    </div>
                 </div>
             </div>
-            <div class="food-card">
-                <img src="https://source.unsplash.com/800x600/?bbq-ribs" alt="BBQ" class="food-image">
-                <div class="food-info">
-                    <h2>BBQ</h2>
-                    <p>Various regional BBQ styles and smoking techniques</p>
+        </div>
+
+        <div class="food-section" id="regional">
+            <div class="food-grid">
+                <div class="food-card">
+                    <img src="https://source.unsplash.com/800x600/?deep-dish-pizza" alt="Chicago Deep Dish" class="food-image">
+                    <div class="food-info">
+                        <h2>Chicago Deep Dish</h2>
+                        <p>Iconic Chicago-style pizza</p>
+                        <span class="details">Region: Midwest</span>
+                    </div>
                 </div>
-            </div>
-            <div class="food-card">
-                <img src="https://source.unsplash.com/800x600/?apple-pie" alt="Desserts" class="food-image">
-                <div class="food-info">
-                    <h2>American Desserts</h2>
-                    <p>Apple pie, chocolate chip cookies, and more</p>
+
+                <div class="food-card">
+                    <img src="https://source.unsplash.com/800x600/?clam-chowder" alt="Clam Chowder" class="food-image">
+                    <div class="food-info">
+                        <h2>Clam Chowder</h2>
+                        <p>New England specialty</p>
+                        <span class="details">Region: Northeast</span>
+                    </div>
                 </div>
-            </div>
-            <div class="food-card">
-                <img src="https://source.unsplash.com/800x600/?hot-dog" alt="Street Food" class="food-image">
-                <div class="food-info">
-                    <h2>Street Food</h2>
-                    <p>Hot dogs, pretzels, and food truck favorites</p>
+
+                <div class="food-card">
+                    <img src="https://source.unsplash.com/800x600/?gumbo" alt="Gumbo" class="food-image">
+                    <div class="food-info">
+                        <h2>Gumbo</h2>
+                        <p>Louisiana favorite</p>
+                        <span class="details">Region: South</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab-btn');
+        const sections = document.querySelectorAll('.food-section');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.tab;
+                
+                tabs.forEach(t => t.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>

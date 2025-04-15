@@ -3,50 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>American Places</title>
+    <title>American Landmarks</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --red: #B31942;
-            --white: #FFFFFF;
             --blue: #0A3161;
+            --white: #FFFFFF;
+            --red: #B31942;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--red), var(--white), var(--blue));
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            animation: gradientBG 15s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            height: 85vh;
+            margin: 0;
+            padding: 2vh 2vw;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 4px solid;
+            border-image: linear-gradient(45deg, var(--red), var(--white), var(--blue)) 1;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--red);
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            margin: 1vh 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, var(--red), var(--white), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(179, 25, 66, 0.5); transform: scale(1); }
+            50% { text-shadow: 0 0 30px rgba(10, 49, 97, 0.5); transform: scale(1.05); }
+        }
+
+        .slider-container {
+            flex: 1;
+            position: relative;
+            height: auto;
+            min-height: 0;
+            margin-bottom: 1vh;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .wonder-card {
+            position: absolute;
+            width: 100%;
+            height: calc(100% - 2vh);
+            margin: 1vh 0;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        .wonder-card.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .wonder-card.prev {
+            opacity: 0;
+            transform: translateX(-100%);
+        }
+
+        .wonder-image {
+            position: relative;
+            height: 60%;
+            overflow: hidden;
+        }
+
+        .wonder-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: var(--red);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .play-button i {
+            color: #000;
+            font-size: 24px;
+        }
+
+        .wonder-info {
+            padding: 20px;
+            color: var(--white);
+        }
+
+        .wonder-info h2 {
+            color: var(--red);
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .wonder-info p {
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .arrow-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .arrow-btn:hover {
+            background: var(--red);
+        }
+
+        .arrow-btn i {
+            color: white;
+            font-size: 24px;
+        }
+
+        .prev-arrow {
+            left: 20px;
+        }
+
+        .next-arrow {
+            right: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: -40px;
+            top: -40px;
+            color: white;
+            font-size: 35px;
+            cursor: pointer;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 92%;
+                height: 90vh;
+            }
+
+            .wonder-info h2 {
+                font-size: 1.5rem;
+            }
+
+            .arrow-btn {
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🗽 Famous Places</h1>
-        <div class="place-grid">
-            <div class="place-card">
-                <img src="https://source.unsplash.com/800x600/?new-york-city" alt="NYC" class="place-image">
-                <div class="place-info">
-                    <h2>New York City</h2>
-                    <p>The Big Apple - Cultural and financial capital</p>
+        <h1>🗽Places To Visit In America</h1>
+        
+        <div class="slider-container">
+            <button class="arrow-btn prev-arrow">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="arrow-btn next-arrow">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <!-- Statue of Liberty -->
+            <div class="wonder-card active">
+                <div class="wonder-image">
+                    <img src="https://source.unsplash.com/800x600/?statue-of-liberty" alt="Statue of Liberty">
+                    <div class="play-button" data-video="https://www.youtube.com/embed/2FrX7A3cXuY">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="wonder-info">
+                    <h2>Statue of Liberty</h2>
+                    <p>📍 New York Harbor, NY<br>
+                    A symbol of freedom and democracy, gifted by France in 1886, standing at 305 feet tall.</p>
                 </div>
             </div>
-            <div class="place-card">
-                <img src="https://source.unsplash.com/800x600/?grand-canyon" alt="Grand Canyon" class="place-image">
-                <div class="place-info">
+
+            <!-- Grand Canyon -->
+            <div class="wonder-card">
+                <div class="wonder-image">
+                    <img src="https://source.unsplash.com/800x600/?grand-canyon" alt="Grand Canyon">
+                    <div class="play-button" data-video="https://www.youtube.com/embed/2FrX7A3cXuY">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="wonder-info">
                     <h2>Grand Canyon</h2>
-                    <p>Natural wonder of the world in Arizona</p>
+                    <p>📍 Arizona<br>
+                    One of the world's natural wonders, carved by the Colorado River over millions of years.</p>
                 </div>
             </div>
-            <div class="place-card">
-                <img src="https://source.unsplash.com/800x600/?las-vegas" alt="Las Vegas" class="place-image">
-                <div class="place-info">
-                    <h2>Las Vegas</h2>
-                    <p>Entertainment capital of the world</p>
+
+            <!-- Mount Rushmore -->
+            <div class="wonder-card">
+                <div class="wonder-image">
+                    <img src="https://source.unsplash.com/800x600/?mount-rushmore" alt="Mount Rushmore">
+                    <div class="play-button" data-video="https://www.youtube.com/embed/2FrX7A3cXuY">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="wonder-info">
+                    <h2>Mount Rushmore</h2>
+                    <p>📍 South Dakota<br>
+                    Massive sculpture carved into the Black Hills, featuring four presidential faces.</p>
                 </div>
             </div>
-            <div class="place-card">
-                <img src="https://source.unsplash.com/800x600/?hollywood" alt="Hollywood" class="place-image">
-                <div class="place-info">
-                    <h2>Hollywood</h2>
-                    <p>Center of the global film industry</p>
+
+            <!-- Golden Gate Bridge -->
+            <div class="wonder-card">
+                <div class="wonder-image">
+                    <img src="https://source.unsplash.com/800x600/?golden-gate-bridge" alt="Golden Gate Bridge">
+                    <div class="play-button" data-video="https://www.youtube.com/embed/2FrX7A3cXuY">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="wonder-info">
+                    <h2>Golden Gate Bridge</h2>
+                    <p>📍 San Francisco, CA<br>
+                    Iconic suspension bridge spanning the Golden Gate strait, completed in 1937.</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="video-container">
+                <iframe frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const wonderCards = document.querySelectorAll('.wonder-card');
+        const prevArrow = document.querySelector('.prev-arrow');
+        const nextArrow = document.querySelector('.next-arrow');
+        let currentIndex = 0;
+        let slideInterval;
+
+        function updateSlide() {
+            wonderCards.forEach((card, index) => {
+                card.classList.remove('active', 'prev');
+                if (index === currentIndex) {
+                    card.classList.add('active');
+                } else if (index === (currentIndex - 1 + wonderCards.length) % wonderCards.length) {
+                    card.classList.add('prev');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % wonderCards.length;
+            updateSlide();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + wonderCards.length) % wonderCards.length;
+            updateSlide();
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        prevArrow.addEventListener('click', () => {
+            prevSlide();
+            resetInterval();
+        });
+
+        nextArrow.addEventListener('click', () => {
+            nextSlide();
+            resetInterval();
+        });
+
+        const modal = document.getElementById('videoModal');
+        const iframe = modal.querySelector('iframe');
+        const closeBtn = modal.querySelector('.close-modal');
+
+        document.querySelectorAll('.play-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const videoUrl = button.getAttribute('data-video');
+                iframe.src = videoUrl;
+                modal.style.display = 'block';
+                clearInterval(slideInterval);
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            iframe.src = '';
+            resetInterval();
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                iframe.src = '';
+                resetInterval();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+                resetInterval();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+                resetInterval();
+            } else if (e.key === 'Escape' && modal.style.display === 'block') {
+                modal.style.display = 'none';
+                iframe.src = '';
+                resetInterval();
+            }
+        });
+
+        resetInterval();
+    </script>
 </body>
 </html>

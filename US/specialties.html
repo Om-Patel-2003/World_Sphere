@@ -14,44 +14,213 @@
         }
 
         body {
-            background: linear-gradient(135deg, var(--blue), var(--white), var(--red));
+            background: linear-gradient(135deg, var(--red), var(--white), var(--blue));
             font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            animation: gradientBG 15s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        .info-text {
+            position: absolute;
+            text-align: center;
+            color: var(--white);
+            font-size: 1rem;
+            top: 20px;
+            padding: 10px 30px;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .info-text span {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            height: 85vh;
+            margin: 25px 0 0 0;
+            padding: 2vh 2vw;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            border: 4px solid;
+            border-image: linear-gradient(45deg, var(--red), var(--white), var(--blue)) 1;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--red);
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            margin: 1vh 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, var(--red), var(--white), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            height: calc(100% - 60px);
+            padding: 0 20px;
+        }
+
+        .video-section {
+            flex: 1;
+            width: 85%;
+            max-width: 1000px;
+            min-height: calc(85vh - 150px);
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transform: perspective(1000px) rotateX(0deg);
+            transition: transform 0.5s ease;
+        }
+
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.95),
+                rgba(0, 0, 0, 0.8)
+            );
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder i {
+            font-size: 4rem;
+            color: var(--red);
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .video-placeholder h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--red);
+        }
+
+        .video-placeholder p {
+            font-size: 1rem;
+            max-width: 400px;
+            text-align: center;
+            color: var(--white);
+            line-height: 1.5;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 92%;
+                height: 90vh;
+            }
+            .video-section {
+                width: 95%;
+            }
+            .video-placeholder h2 {
+                font-size: 1.3rem;
+            }
+            .video-placeholder p {
+                font-size: 0.9rem;
+                max-width: 90%;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="info-text">
+        "America: Where <span>innovation</span> meets <span>opportunity</span>"
+    </div>
     <div class="container">
         <h1>💡 American Specialties</h1>
-        <div class="specialty-grid">
-            <div class="specialty-card">
-                <div class="specialty-icon">💻</div>
-                <div class="specialty-info">
-                    <h2>Technology</h2>
-                    <p>Silicon Valley and tech innovation</p>
-                </div>
-            </div>
-            <div class="specialty-card">
-                <div class="specialty-icon">🎓</div>
-                <div class="specialty-info">
-                    <h2>Education</h2>
-                    <p>World-class universities and research</p>
-                </div>
-            </div>
-            <div class="specialty-card">
-                <div class="specialty-icon">🚀</div>
-                <div class="specialty-info">
-                    <h2>Space Exploration</h2>
-                    <p>NASA and private space companies</p>
-                </div>
-            </div>
-            <div class="specialty-card">
-                <div class="specialty-icon">🎬</div>
-                <div class="specialty-info">
-                    <h2>Entertainment</h2>
-                    <p>Global media and film industry</p>
+        <div class="content-wrapper">
+            <div class="video-section">
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                        <h2>American Innovation & Achievement</h2>
+                        <p>Discover America's groundbreaking contributions to technology, space exploration, 
+                           entertainment, and global innovation.</p>
+                    </div>
+                    <video id="specialtyVideo" controls>
+                        <source src="America_Specialties.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const videoContainer = document.querySelector('.video-container');
+        const videoPlaceholder = document.querySelector('.video-placeholder');
+        const video = document.getElementById('specialtyVideo');
+
+        videoPlaceholder.addEventListener('click', () => {
+            videoContainer.classList.add('playing');
+            video.play();
+        });
+
+        video.addEventListener('ended', () => {
+            videoContainer.classList.remove('playing');
+            video.currentTime = 0;
+        });
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('.info-text, .video-section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>

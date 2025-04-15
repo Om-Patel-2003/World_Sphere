@@ -4,28 +4,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Japanese Culture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --red: #BC002D;
             --white: #FFFFFF;
             --black: #000000;
         }
+
+        body {
+            background: linear-gradient(135deg, var(--red), var(--white), var(--black));
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            animation: gradientBG 15s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            height: 85vh;
+            margin: 0;
+            padding: 2vh 2vw;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            border: 4px solid;
+            border-image: linear-gradient(45deg, var(--red), var(--white), var(--black)) 1;
+            gap: 20px;
+        }
+
+        .culture-section {
+            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--red) rgba(255, 255, 255, 0.1);
+        }
+
+        .culture-slide {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            padding: 15px;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 4s ease-out;
+            height: calc(100% - 40px);
+        }
+
+        .culture-slide.active {
+            display: grid;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .culture-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2));
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 4s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
         
+
+        .slide-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .slide-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 4s ease;
+            border: 2px solid transparent;
+        }
+
+        .slide-btn.active {
+            background: var(--red);
+            color: white;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🗾 Japanese Culture</h1>
-        <div class="culture-grid">
-            <div class="culture-card">
-                <img src="https://source.unsplash.com/800x600/?japanese-tea-ceremony" alt="Tea Ceremony">
-                <div class="culture-info">
-                    <h2>Tea Ceremony</h2>
-                    <p>Traditional Japanese tea ceremony and its rituals</p>
+        <h1>🎌 Japanese Culture</h1>
+        <div class="culture-section">
+            <div class="culture-slide active" id="culture-1">
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?tea-ceremony-japan" alt="Tea Ceremony">
+                    </div>
+                    <div class="culture-info">
+                        <h2>🍵 Tea Ceremony</h2>
+                        <p>Experience the art of traditional Japanese tea ceremony (Chanoyu) and its mindful rituals.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?kabuki-japan" alt="Kabuki">
+                    </div>
+                    <div class="culture-info">
+                        <h2>🎭 Kabuki</h2>
+                        <p>Classical Japanese dance-drama with elaborate costumes and stylized performances.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?matsuri-festival" alt="Festivals">
+                    </div>
+                    <div class="culture-info">
+                        <h2>🏮 Festivals</h2>
+                        <p>Vibrant matsuri celebrations throughout the year with traditional customs and foods.</p>
+                    </div>
                 </div>
             </div>
-            <!-- Add more culture cards for Kabuki, Festivals, etc. -->
+            <div class="culture-slide" id="culture-2">
+                <!-- Add 3 more culture cards for second slide -->
+            </div>
+        </div>
+        <div class="slide-controls">
+            <button class="slide-btn active" data-slide="culture-1">1</button>
+            <button class="slide-btn" data-slide="culture-2">2</button>
         </div>
     </div>
+
+    <script>
+        const slides = document.querySelectorAll('.culture-slide');
+        const buttons = document.querySelectorAll('.slide-btn');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const slideId = button.getAttribute('data-slide');
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                });
+                document.getElementById(slideId).classList.add('active');
+
+                buttons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>

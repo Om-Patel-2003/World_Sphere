@@ -41,12 +41,13 @@
             padding: 2vh 2vw;
             display: flex;
             flex-direction: column;
-            background: rgba(0, 0, 0, 0.85);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
             border: 4px solid;
             border-image: linear-gradient(45deg, var(--saffron), var(--white), var(--green)) 1;
+            gap: 20px;
         }
 
         h1 {
@@ -67,56 +68,277 @@
             50% { text-shadow: 0 0 30px rgba(19, 136, 8, 0.5); transform: scale(1.05); }
         }
 
-        .culture-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
+        .culture-section {
+            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
             overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--saffron) rgba(255, 255, 255, 0.1);
+        }
+
+        .culture-slide {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            padding: 15px;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 4s ease-out;
+            height: calc(100% - 40px);
+        }
+
+        .culture-slide.active {
+            display: grid;
+            opacity: 1;
+            transform: scale(1);
         }
 
         .culture-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2));
+            border-radius: 20px;
             overflow: hidden;
-            transition: transform 0.3s;
+            transition: all 4s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .culture-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--saffron);
+            box-shadow: 0 10px 25px rgba(255, 153, 51, 0.2);
         }
 
         .culture-image {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            height: 250px;
+            background: rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .culture-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
         }
 
         .culture-info {
-            padding: 20px;
+            padding: 25px;
             color: white;
+            background: transparent;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
         }
 
         .culture-info h2 {
             color: var(--saffron);
-            margin: 0 0 10px;
+            margin: 0;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .culture-info h2 i {
+            font-size: 1.8rem;
         }
 
         .culture-info p {
             margin: 0;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 1rem;
+            color: #f0f0f0;
+        }
+
+        .slide-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .slide-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+
+        .slide-btn.active {
+            background: var(--saffron);
+            color: black;
+            font-weight: 600;
+        }
+
+        .slide-btn:hover:not(.active) {
+            border-color: var(--saffron);
+            background: rgba(255,153,51,0.1);
+        }
+
+        @media (max-width: 1200px) {
+            .culture-slide {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 92%;
+                height: 90vh;
+            }
+            
+            .culture-section {
+                height: calc(100% - 90px);
+            }
+
+            .culture-slide {
+                grid-template-columns: 1fr;
+            }
+            .culture-card {
+                height: 380px;
+            }
+            .culture-image {
+                height: 200px;
+            }
+        }
+
+        .culture-section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .culture-section::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .culture-section::-webkit-scrollbar-thumb {
+            background: var(--saffron);
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎭 Indian Culture</h1>
-        <div class="culture-grid">
-            <div class="culture-card">
-                <img src="https://source.unsplash.com/800x600/?indian-festival" alt="Festivals" class="culture-image">
-                <div class="culture-info">
-                    <h2>Festivals</h2>
-                    <p>Diwali, Holi, and many other vibrant celebrations</p>
+        <div class="culture-section">
+            <div class="culture-slide active" id="culture-1">
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <!-- Leave empty for image -->
+                    </div>
+                    <div class="culture-info">
+                        <h2>🪔 Festivals</h2>
+                        <p>Discover the vibrant celebrations of Diwali - Festival of Lights, Holi - Festival of Colors, and many more cultural festivities.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <!-- Leave empty for image -->
+                    </div>
+                    <div class="culture-info">
+                        <h2>💃 Classical Dance</h2>
+                        <p>Experience the grace of Bharatanatyam, Kathak, Odissi, and other traditional dance forms.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <!-- Leave empty for image -->
+                    </div>
+                    <div class="culture-info">
+                        <h2>🎵 Music</h2>
+                        <p>Journey through the melodious world of Indian classical music, folk songs, and modern fusion.</p>
+                    </div>
                 </div>
             </div>
-            <!-- Add more culture cards -->
+            <div class="culture-slide" id="culture-2">
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <!-- Leave empty for image -->
+                    </div>
+                    <div class="culture-info">
+                        <h2>👘 Traditional Attire</h2>
+                        <p>Explore the rich diversity of Indian clothing, from elegant sarees to royal sherwanis.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <!-- Leave empty for image -->
+                    </div>
+                    <div class="culture-info">
+                        <h2>🎨 Art Forms</h2>
+                        <p>Discover ancient art forms like Madhubani, Warli, Tanjore paintings, and modern interpretations.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <!-- Leave empty for image -->
+                    </div>
+                    <div class="culture-info">
+                        <h2>🙏 Traditions</h2>
+                        <p>Learn about age-old customs, rituals, and spiritual practices that define Indian culture.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-controls">
+            <button class="slide-btn active" data-slide="culture-1">1</button>
+            <button class="slide-btn" data-slide="culture-2">2</button>
         </div>
     </div>
+
+    <script>
+        const slideButtons = document.querySelectorAll('.slide-btn');
+        const slides = document.querySelectorAll('.culture-slide');
+        let slideInterval;
+
+        function startAutoSlide() {
+            slideInterval = setInterval(() => {
+                const currentSlide = document.querySelector('.culture-slide.active');
+                const currentBtn = document.querySelector('.slide-btn.active');
+                const nextSlide = currentSlide.nextElementSibling || document.querySelector('.culture-slide:first-child');
+                const nextBtn = currentBtn.nextElementSibling || document.querySelector('.slide-btn:first-child');
+
+                currentSlide.classList.remove('active');
+                currentBtn.classList.remove('active');
+                nextSlide.classList.add('active');
+                nextBtn.classList.add('active');
+            }, 4000);
+        }
+
+        startAutoSlide();
+
+        slideButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                clearInterval(slideInterval);
+                const target = button.dataset.slide;
+                
+                slideButtons.forEach(b => b.classList.remove('active'));
+                slides.forEach(s => s.classList.remove('active'));
+                
+                button.classList.add('active');
+                document.getElementById(target).classList.add('active');
+                
+                setTimeout(startAutoSlide, 2000);
+            });
+        });
+    </script>
 </body>
 </html>

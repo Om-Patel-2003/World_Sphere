@@ -47,6 +47,8 @@
             backdrop-filter: blur(10px);
             border: 4px solid;
             border-image: linear-gradient(45deg, var(--saffron), var(--white), var(--green)) 1;
+            gap: 15px;
+            overflow: hidden;  /* Add this to prevent outer scrolling */
         }
 
         h1 {
@@ -67,12 +69,113 @@
             50% { text-shadow: 0 0 30px rgba(19, 136, 8, 0.5); transform: scale(1.05); }
         }
 
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .tab-btn {
+            padding: 8px 25px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            border: 1px solid transparent;
+        }
+
+        .tab-btn.active {
+            background: var(--saffron);
+            color: black;
+        }
+
+        .tab-btn:hover:not(.active) {
+            border-color: var(--saffron);
+        }
+
+        .food-section {
+            display: none;
+            height: calc(100% - 100px);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .food-section.active {
+            display: flex;
+            flex-direction: column;
+        }
+
         .food-grid {
+            position: relative;
+            height: calc(100% - 40px); /* Account for slide controls */
+            overflow: hidden;
+        }
+
+        .veg-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             padding: 20px;
-            overflow-y: auto;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s ease;
+        }
+
+        .veg-slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            z-index: 1;
+        }
+
+        .non-veg-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s ease;
+        }
+
+        .non-veg-slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            z-index: 1;
+        }
+
+        .slide-controls {
+            padding: 10px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .slide-btn {
+            padding: 5px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--saffron);
+            color: var(--white);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slide-btn.active {
+            background: var(--saffron);
+            color: black;
+        }
+
+        .slide-btn:hover:not(.active) {
+            background: rgba(255, 153, 51, 0.2);
         }
 
         .food-card {
@@ -80,6 +183,9 @@
             border-radius: 15px;
             overflow: hidden;
             transition: transform 0.3s;
+            display: grid;
+            grid-template-rows: 200px 1fr;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .food-card:hover {
@@ -95,6 +201,9 @@
         .food-info {
             padding: 15px;
             color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .food-info h2 {
@@ -108,14 +217,36 @@
             line-height: 1.4;
         }
 
+        .food-info .details {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .food-info .spice-level {
+            color: var(--saffron);
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 768px) {
             .container {
                 width: 92%;
                 height: 90vh;
+                padding: 15px;
             }
             
+            .food-section {
+                height: calc(100% - 90px);
+            }
+
             .food-grid {
                 grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .veg-slide {
+                grid-template-columns: 1fr;
+                overflow-y: auto;
             }
         }
     </style>
@@ -123,24 +254,237 @@
 <body>
     <div class="container">
         <h1>🍛 Famous Indian Cuisine</h1>
-        <div class="food-grid">
-            <!-- Food items -->
-            <div class="food-card">
-                <img src="https://source.unsplash.com/800x600/?biryani" alt="Biryani" class="food-image">
-                <div class="food-info">
-                    <h2>Biryani</h2>
-                    <p>A fragrant rice dish with spices and meat/vegetables</p>
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="veg">🥬 Vegetarian</button>
+            <button class="tab-btn" data-tab="non-veg">🍖 Non-Vegetarian</button>
+        </div>
+        
+        <div class="food-section active" id="veg">
+            <div class="food-grid">
+                <div class="veg-slide active" id="veg-1">
+                    <div class="food-card">
+                        <img src="" alt="Paneer Butter Masala" class="food-image">
+                        <div class="food-info">
+                            <h2>Paneer Butter Masala</h2>
+                            <p>Cottage cheese cubes in rich tomato-cream gravy</p>
+                            <span class="details">Main ingredients: Paneer, Tomato, Cream</span>
+                            <span class="spice-level">🌶️ Medium Spicy</span>
+                        </div>
+                    </div>
+                    <div class="food-card">
+                        <img src="" alt="Dal Makhani" class="food-image">
+                        <div class="food-info">
+                            <h2>Dal Makhani</h2>
+                            <p>Creamy black lentils slow-cooked to perfection</p>
+                            <span class="details">Main ingredients: Black Lentils, Butter, Cream</span>
+                            <span class="spice-level">🌶️ Mild</span>
+                        </div>
+                    </div>
+                    <div class="food-card">
+                        <img src="" alt="Palak Paneer" class="food-image">
+                        <div class="food-info">
+                            <h2>Palak Paneer</h2>
+                            <p>Cottage cheese in creamy spinach gravy</p>
+                            <span class="details">Main ingredients: Spinach, Paneer, Spices</span>
+                            <span class="spice-level">🌶️ Mild</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="veg-slide" id="veg-2">
+                    <div class="food-card">
+                        <img src="" alt="Masala Dosa" class="food-image">
+                        <div class="food-info">
+                            <h2>Masala Dosa</h2>
+                            <p>Crispy rice crepe with spiced potato filling</p>
+                            <span class="details">Main ingredients: Rice, Potato, Coconut Chutney</span>
+                            <span class="spice-level">🌶️ Medium</span>
+                        </div>
+                    </div>
+                    <div class="food-card">
+                        <img src="" alt="Chole Bhature" class="food-image">
+                        <div class="food-info">
+                            <h2>Chole Bhature</h2>
+                            <p>Spiced chickpeas with fried bread</p>
+                            <span class="details">Main ingredients: Chickpeas, Flour, Spices</span>
+                            <span class="spice-level">🌶️🌶️ Spicy</span>
+                        </div>
+                    </div>
+                    <div class="food-card">
+                        <img src="" alt="Vegetable Biryani" class="food-image">
+                        <div class="food-info">
+                            <h2>Veg Biryani</h2>
+                            <p>Fragrant rice with mixed vegetables</p>
+                            <span class="details">Main ingredients: Basmati Rice, Mixed Vegetables</span>
+                            <span class="spice-level">🌶️ Medium</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="food-card">
-                <img src="https://source.unsplash.com/800x600/?butter-chicken" alt="Butter Chicken" class="food-image">
-                <div class="food-info">
-                    <h2>Butter Chicken</h2>
-                    <p>Tender chicken in rich, creamy tomato sauce</p>
+            <div class="slide-controls">
+                <button class="slide-btn active" data-slide="veg-1">1</button>
+                <button class="slide-btn" data-slide="veg-2">2</button>
+            </div>
+        </div>
+
+        <div class="food-section" id="non-veg">
+            <div class="food-grid">
+                <div class="non-veg-slide active" id="non-veg-1">
+                    <div class="food-card">
+                        <img src="" alt="Butter Chicken" class="food-image">
+                        <div class="food-info">
+                            <h2>Butter Chicken</h2>
+                            <p>Tender chicken in rich, creamy tomato gravy</p>
+                            <span class="details">Main ingredients: Chicken, Tomato, Cream</span>
+                            <span class="spice-level">🌶️ Medium</span>
+                        </div>
+                    </div>
+                    <div class="food-card">
+                        <img src="" alt="Chicken Biryani" class="food-image">
+                        <div class="food-info">
+                            <h2>Chicken Biryani</h2>
+                            <p>Aromatic rice layered with spiced chicken</p>
+                            <span class="details">Main ingredients: Basmati Rice, Chicken, Spices</span>
+                            <span class="spice-level">🌶️🌶️ Spicy</span>
+                        </div>
+                    </div>
+                    <div class="food-card">
+                        <img src="" alt="Mutton Rogan Josh" class="food-image">
+                        <div class="food-info">
+                            <h2>Mutton Rogan Josh</h2>
+                            <p>Kashmiri style spiced lamb curry</p>
+                            <span class="details">Main ingredients: Lamb, Yogurt, Kashmiri Chilies</span>
+                            <span class="spice-level">🌶️🌶️ Very Spicy</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="non-veg-slide" id="non-veg-2">
+                    <div class="food-card">
+                        <img src="" alt="Fish Curry" class="food-image">
+                        <div class="food-info">
+                            <h2>Fish Curry</h2>
+                            <p>Coastal style tangy fish curry</p>
+                            <span class="details">Main ingredients: Fish, Coconut, Tamarind</span>
+                            <span class="spice-level">🌶️🌶️ Spicy</span>
+                        </div>
+                    </div>
+                    <div class="food-card">
+                        <img src="" alt="Chicken Tikka" class="food-image">
+                        <div class="food-info">
+                            <h2>Chicken Tikka</h2>
+                            <p>Grilled marinated chicken pieces</p>
+                            <span class="details">Main ingredients: Chicken, Yogurt, Tandoori Masala</span>
+                            <span class="spice-level">🌶️ Medium</span>
+                        </div>
+                    </div>
+                    <div class="food-card">
+                        <img src="" alt="Hyderabadi Biryani" class="food-image">
+                        <div class="food-info">
+                            <h2>Hyderabadi Biryani</h2>
+                            <p>Royal style layered meat biryani</p>
+                            <span class="details">Main ingredients: Basmati Rice, Meat, Saffron</span>
+                            <span class="spice-level">🌶️🌶️ Spicy</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- Add more food cards as needed -->
+            <div class="slide-controls">
+                <button class="slide-btn active" data-slide="non-veg-1">1</button>
+                <button class="slide-btn" data-slide="non-veg-2">2</button>
+            </div>
         </div>
     </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab-btn');
+        const sections = document.querySelectorAll('.food-section');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.tab;
+                
+                tabs.forEach(t => t.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+
+        const slideButtons = document.querySelectorAll('.slide-btn');
+        const slides = document.querySelectorAll('.veg-slide');
+
+        slideButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const target = button.dataset.slide;
+                
+                slideButtons.forEach(b => b.classList.remove('active'));
+                slides.forEach(s => s.classList.remove('active'));
+                
+                button.classList.add('active');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+
+        const autoSlideInterval = 4000; // 4 seconds
+        let vegSlideInterval;
+        let nonVegSlideInterval;
+
+        function startAutoSlides() {
+            // Veg slides
+            vegSlideInterval = setInterval(() => {
+                const currentSlide = document.querySelector('#veg .veg-slide.active');
+                const currentBtn = document.querySelector('#veg .slide-btn.active');
+                const nextSlide = currentSlide.nextElementSibling || document.querySelector('#veg .veg-slide:first-child');
+                const nextBtn = currentBtn.nextElementSibling || document.querySelector('#veg .slide-btn:first-child');
+
+                currentSlide.classList.remove('active');
+                currentBtn.classList.remove('active');
+                nextSlide.classList.add('active');
+                nextBtn.classList.add('active');
+            }, autoSlideInterval);
+
+            // Non-veg slides
+            nonVegSlideInterval = setInterval(() => {
+                const currentSlide = document.querySelector('#non-veg .non-veg-slide.active');
+                const currentBtn = document.querySelector('#non-veg .slide-btn.active');
+                const nextSlide = currentSlide.nextElementSibling || document.querySelector('#non-veg .non-veg-slide:first-child');
+                const nextBtn = currentBtn.nextElementSibling || document.querySelector('#non-veg .slide-btn:first-child');
+
+                currentSlide.classList.remove('active');
+                currentBtn.classList.remove('active');
+                nextSlide.classList.add('active');
+                nextBtn.classList.add('active');
+            }, autoSlideInterval);
+        }
+
+        function stopAutoSlides() {
+            clearInterval(vegSlideInterval);
+            clearInterval(nonVegSlideInterval);
+        }
+
+        // Initialize auto-sliding
+        startAutoSlides();
+
+        // Handle slide button clicks for both sections
+        document.querySelectorAll('.slide-btn').forEach(button => {
+            button.addEventListener('mouseenter', stopAutoSlides);
+            button.addEventListener('mouseleave', startAutoSlides);
+            button.addEventListener('click', function() {
+                const target = this.dataset.slide;
+                const section = this.closest('.food-section');
+                const slides = section.querySelectorAll('.veg-slide, .non-veg-slide');
+                const buttons = section.querySelectorAll('.slide-btn');
+                
+                slides.forEach(s => s.classList.remove('active'));
+                buttons.forEach(b => b.classList.remove('active'));
+                
+                this.classList.add('active');
+                document.getElementById(target).classList.add('active');
+                
+                stopAutoSlides();
+                setTimeout(startAutoSlides, 2000);
+            });
+        });
+    </script>
 </body>
 </html>
