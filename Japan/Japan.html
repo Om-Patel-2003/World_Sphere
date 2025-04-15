@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #BC002D;
+            --white: #FFFFFF;
+            --black: #000000;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--red), var(--white), var(--black));
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            height: 100vh;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .grid-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .explore-btn {
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗾 Japan</h1>
+        <div class="grid-container">
+            <div class="grid-item">
+                <h1>⛩️ Places</h1>
+                <p>From Mount Fuji to ancient temples</p>
+                <button class="explore-btn" onclick="openPage('places.html')">Explore More</button>
+            </div>
+            
+            <div class="grid-item">
+                <h1>🎭 Culture</h1>
+                <p>Traditional arts, festivals, and customs</p>
+                <button class="explore-btn" onclick="openPage('culture.html')">Explore More</button>
+            </div>
+            
+            <div class="grid-item">
+                <h1>🍱 Famous Foods</h1>
+                <p>Sushi, Ramen, and Japanese cuisine</p>
+                <button class="explore-btn" onclick="openPage('food.html')">Explore More</button>
+            </div>
+            
+            <div class="grid-item">
+                <h1>💡 Specialties</h1>
+                <p>Technology, Anime, and Traditional Arts</p>
+                <button class="explore-btn" onclick="openPage('specialties.html')">Explore More</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openPage(page) {
+            window.open(page, "_blank");
+        }
+    </script>
+</body>
+</html>

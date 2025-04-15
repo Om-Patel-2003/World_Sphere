@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Specialties</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #BC002D;
+            --white: #FFFFFF;
+            --black: #000000;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--red), var(--white), var(--black));
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .specialty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .specialty-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎌 Japanese Specialties</h1>
+        <div class="specialty-grid">
+            <div class="specialty-card">
+                <div class="specialty-icon">⛩️</div>
+                <div class="specialty-info">
+                    <h2>Traditional Arts</h2>
+                    <p>Ikebana, Calligraphy, and Tea Ceremony</p>
+                </div>
+            </div>
+            <div class="specialty-card">
+                <div class="specialty-icon">🤖</div>
+                <div class="specialty-info">
+                    <h2>Technology</h2>
+                    <p>Robotics, Electronics, and Innovation</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

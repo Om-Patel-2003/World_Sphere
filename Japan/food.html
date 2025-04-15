@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Cuisine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #BC002D;
+            --white: #FFFFFF;
+            --black: #000000;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--red), var(--white), var(--black));
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            margin: 2vh auto;
+            padding: 2vh 2vw;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .food-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--white);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍱 Japanese Cuisine</h1>
+        <div class="food-grid">
+            <div class="food-card">
+                <img src="https://source.unsplash.com/800x600/?sushi" alt="Sushi">
+                <div class="food-info">
+                    <h2>Sushi</h2>
+                    <p>Fresh fish and seafood with vinegared rice</p>
+                </div>
+            </div>
+            <div class="food-card">
+                <img src="https://source.unsplash.com/800x600/?ramen" alt="Ramen">
+                <div class="food-info">
+                    <h2>Ramen</h2>
+                    <p>Noodle soup with various toppings</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

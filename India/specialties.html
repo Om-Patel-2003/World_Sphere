@@ -3,21 +3,402 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Specialties of India</title>
+    <title>Indian Specialties</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            background: linear-gradient(to bottom, #FF9933, white, #138808);
-            text-align: center;
-            font-family: Arial, sans-serif;
+        :root {
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --green: #138808;
         }
+
+        body {
+            background: linear-gradient(135deg, var(--saffron), var(--white), var(--green));
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            animation: gradientBG 15s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            height: 85vh;
+            margin: 25px 0 0 0;  /* Added top margin to make room for quote */
+            padding: 2vh 2vw;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 4px solid;
+            border-image: linear-gradient(45deg, var(--saffron), var(--white), var(--green)) 1;
+            animation: containerGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes containerGlow {
+            0%, 100% { box-shadow: 0 10px 30px rgba(255, 153, 51, 0.2); }
+            50% { box-shadow: 0 10px 40px rgba(19, 136, 8, 0.3); }
+        }
+
         h1 {
-            margin-top: 50px;
-            color: black;
+            text-align: center;
+            color: var(--saffron);
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            margin: 1vh 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, var(--saffron), var(--white), var(--green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 153, 51, 0.5); transform: scale(1); }
+            50% { text-shadow: 0 0 30px rgba(19, 136, 8, 0.5); transform: scale(1.05); }
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;  /* reduced gap further */
+            height: 100%;
+            overflow: hidden;
+            padding: 0 20px;
+            align-items: center;  /* Center content horizontally */
+        }
+
+        .info-text {
+            position: absolute;
+            text-align: center;
+            color: var(--white);
+            font-size: 1rem;
+            line-height: 1.4;
+            max-width: 600px;
+            width: 80%;
+            padding: 0 30px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            top: -25px;  /* Move quote above container */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .info-text::before {
+            content: '"';
+            position: absolute;
+            font-size: 1.2rem;
+            color: var(--saffron);
+            opacity: 0.8;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 5px;
+        }
+
+        .info-text::after {
+            content: '"';
+            position: absolute;
+            font-size: 1.2rem;
+            color: var(--saffron);
+            opacity: 0.8;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 5px;
+        }
+
+        .info-text span {
+            color: var(--saffron);
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .specialty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .specialty-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .specialty-icon {
+            font-size: 3rem;
+            color: var(--saffron);
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .specialty-info {
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .specialty-info h2 {
+            color: var(--saffron);
+            margin: 0 0 10px;
+        }
+
+        .specialty-info p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .video-section {
+            flex: 1;
+            width: 85%;  /* Reduced from 100% */
+            max-width: 1000px;  /* Added max-width */
+            min-height: calc(85vh - 150px); /* increased minimum height */
+            height: calc(100% - 50px); /* take almost full height */
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transform: perspective(1000px) rotateX(0deg);
+            transition: transform 0.5s ease;
+        }
+
+        .video-section:hover {
+            transform: perspective(1000px) rotateX(2deg);
+        }
+
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+            border-radius: 25px;
+        }
+
+        .video-container.playing .video-placeholder {
+            display: none;
+        }
+
+        .video-container.playing video {
+            display: block;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.95),
+                rgba(0, 0, 0, 0.8),
+                rgba(0, 0, 0, 0.95)
+            );
+            color: var(--white);
+            text-align: center;
+            padding: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            animation: gradientMove 15s ease infinite;
+            border-radius: 25px;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .video-placeholder i {
+            font-size: 4rem;
+            color: var (--saffron);
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .video-placeholder:hover i {
+            animation: none;
+            transform: scale(1.2);
+        }
+
+        .video-placeholder h2 {
+            font-size: 1.5rem;  /* reduced from 1.8rem */
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+            color: var(--saffron);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: inline-block;
+        }
+
+        .video-placeholder h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--saffron);
+            transition: width 0.3s ease;
+        }
+
+        .video-placeholder:hover h2::after {
+            width: 100%;
+        }
+
+        .video-placeholder p {
+            font-size: 1rem;  /* reduced from 1.1rem */
+            max-width: 400px;  /* Reduced from 500px */
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.8);  /* Darker background */
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 0 auto;
+            white-space: normal;  /* Allow text wrap */
+        }
+
+        .video-placeholder:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                height: 90vh;
+            }
+            .content-wrapper {
+                gap: 10px;  /* even smaller gap on mobile */
+            }
+            .video-section {
+                height: 100%;  /* maintain full height */
+                width: 95%;  /* Slightly wider on mobile */
+            }
+            .info-text {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+                width: 95%;
+                padding: 8px 30px;
+            }
+            .video-placeholder h2 {
+                font-size: 1.3rem;
+            }
+            .video-placeholder p {
+                font-size: 0.9rem;
+                max-width: 90%;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .info-text {
+                padding: 8px 15px;
+            }
+            .video-section {
+                height: 100%;  /* maintain full height */
+            }
         }
     </style>
 </head>
 <body>
-    <h1>💡 Specialties of India</h1>
-    <p>India is famous for Yoga, IT industry, and handicrafts.</p>
+    <div class="info-text">
+        "India: Bridging <span>ancient wisdom</span> with <span>modern excellence</span>"
+    </div>
+    <div class="container">
+        <h1>💡Indian Specialties</h1>
+        <div class="content-wrapper">
+            <div class="video-section">
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                        <h2>Specialties of India</h2>
+                        <p>Experience the remarkable fusion of tradition and progress that makes India unique.
+                           Watch this comprehensive showcase of India's diverse specialties and achievements.</p>
+                    </div>
+                    <video id="specialtyVideo" controls>
+                        <source src="Specialities_Of_India.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const videoContainer = document.querySelector('.video-container');
+        const videoPlaceholder = document.querySelector('.video-placeholder');
+        const video = document.getElementById('specialtyVideo');
+
+        videoPlaceholder.addEventListener('click', () => {
+            videoContainer.classList.add('playing');
+            video.play();
+        });
+
+        video.addEventListener('ended', () => {
+            videoContainer.classList.remove('playing');
+            video.currentTime = 0;
+        });
+        
+        // Add smooth scroll reveal effect
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('.info-text, .video-section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>

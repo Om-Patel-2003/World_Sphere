@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>American Cuisine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --blue: #0A3161;
+            --white: #FFFFFF;
+            --red: #B31942;
+        }
+
+        /* Same base styles as culture.html */
+        body {
+            background: linear-gradient(135deg, var(--red), var(--white), var(--blue));
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            animation: gradientBG 15s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        /* Same animations and container styles as culture.html */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            height: 85vh;
+            margin: 0;
+            padding: 2vh 2vw;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 4px solid;
+            border-image: linear-gradient(45deg, var(--red), var(--white), var(--blue)) 1;
+        }
+
+        /* Same card grid styles as culture.html */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .food-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Same heading and text styles as culture.html */
+        h1, h2, p { /* Same styles as culture.html */ }
+
+        .food-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .food-info {
+            padding: 20px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍔 American Cuisine</h1>
+        <div class="food-grid">
+            <div class="food-card">
+                <img src="https://source.unsplash.com/800x600/?hamburger" alt="Burgers" class="food-image">
+                <div class="food-info">
+                    <h2>Burgers</h2>
+                    <p>Classic American hamburgers and cheeseburgers</p>
+                </div>
+            </div>
+            <div class="food-card">
+                <img src="https://source.unsplash.com/800x600/?bbq-ribs" alt="BBQ" class="food-image">
+                <div class="food-info">
+                    <h2>BBQ</h2>
+                    <p>Various regional BBQ styles and smoking techniques</p>
+                </div>
+            </div>
+            <div class="food-card">
+                <img src="https://source.unsplash.com/800x600/?apple-pie" alt="Desserts" class="food-image">
+                <div class="food-info">
+                    <h2>American Desserts</h2>
+                    <p>Apple pie, chocolate chip cookies, and more</p>
+                </div>
+            </div>
+            <div class="food-card">
+                <img src="https://source.unsplash.com/800x600/?hot-dog" alt="Street Food" class="food-image">
+                <div class="food-info">
+                    <h2>Street Food</h2>
+                    <p>Hot dogs, pretzels, and food truck favorites</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

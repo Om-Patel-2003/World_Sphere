@@ -3,25 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food of India</title>
+    <title>Indian Cuisine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            background: linear-gradient(to bottom, #FF9933, white, #138808);
-            text-align: center;
-            font-family: Arial, sans-serif;
+        :root {
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --green: #138808;
         }
+
+        body {
+            background: linear-gradient(135deg, var(--saffron), var(--white), var(--green));
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            animation: gradientBG 15s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            height: 85vh;
+            margin: 0;
+            padding: 2vh 2vw;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 4px solid;
+            border-image: linear-gradient(45deg, var(--saffron), var(--white), var(--green)) 1;
+        }
+
         h1 {
-            margin-top: 50px;
-            color: black;
+            text-align: center;
+            color: var(--saffron);
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            margin: 1vh 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, var(--saffron), var(--white), var(--green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 153, 51, 0.5); transform: scale(1); }
+            50% { text-shadow: 0 0 30px rgba(19, 136, 8, 0.5); transform: scale(1.05); }
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .food-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .food-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .food-info {
+            padding: 15px;
+            color: white;
+        }
+
+        .food-info h2 {
+            color: var(--saffron);
+            margin: 0 0 10px;
+            font-size: 1.5rem;
+        }
+
+        .food-info p {
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 92%;
+                height: 90vh;
+            }
+            
+            .food-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>🍛 Famous Foods</h1>
-    <ul>
-        <li>Biryani</li>
-        <li>Butter Chicken</li>
-        <li>Masala Dosa</li>
-    </ul>
+    <div class="container">
+        <h1>🍛 Famous Indian Cuisine</h1>
+        <div class="food-grid">
+            <!-- Food items -->
+            <div class="food-card">
+                <img src="https://source.unsplash.com/800x600/?biryani" alt="Biryani" class="food-image">
+                <div class="food-info">
+                    <h2>Biryani</h2>
+                    <p>A fragrant rice dish with spices and meat/vegetables</p>
+                </div>
+            </div>
+            <div class="food-card">
+                <img src="https://source.unsplash.com/800x600/?butter-chicken" alt="Butter Chicken" class="food-image">
+                <div class="food-info">
+                    <h2>Butter Chicken</h2>
+                    <p>Tender chicken in rich, creamy tomato sauce</p>
+                </div>
+            </div>
+            <!-- Add more food cards as needed -->
+        </div>
+    </div>
 </body>
 </html>
