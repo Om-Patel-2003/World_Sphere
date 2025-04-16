@@ -32,35 +32,68 @@
             100% { background-position: 0% 50% }
         }
 
+       
         .info-text {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 1.2rem;
-            color: var(--white);
+            position: absolute;
             text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: var(--white);
+            font-size: 1rem;
+            top: 20px;
+            padding: 10px 30px;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.7);
         }
 
         .info-text span {
             color: var(--red);
             font-weight: 600;
         }
-
         .container {
             width: 85%;
             max-width: 1200px;
             height: 85vh;
-            margin: 0;
+            margin: 25px 0 0 0;
             padding: 2vh 2vw;
+            display: flex;
+            flex-direction: column;
             background: rgba(0, 0, 0, 0.85);
             border-radius: 25px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(15px);
             border: 4px solid;
             border-image: linear-gradient(45deg, var(--red), var(--white), var(--red)) 1;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            height: calc(100% - 60px);
+            padding: 20px;
             overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--red) rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Scrollbar Styles */
+        .content-wrapper::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .content-wrapper::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 5px;
+        }
+
+        .content-wrapper::-webkit-scrollbar-thumb {
+            background: var(--red);
+            border-radius: 10px;
+            border: 3px solid rgba(0, 0, 0, 0.7);
+        }
+
+        .content-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #a30026;
         }
 
         h1 {
@@ -84,8 +117,8 @@
         .specialty-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            padding: 20px;
+            gap: 30px;
+            padding: 10px;
         }
 
         .specialty-card {
@@ -196,127 +229,129 @@
 </head>
 <body>
     <div class="info-text">
-        "Where <span>tradition</span> meets <span>innovation</span>"
+        "Where <span>ancient wisdom</span> shapes <span>tomorrow's dreams</span>"
     </div>
     <div class="container">
         <h1>🎌 Japanese Specialties</h1>
-        <div class="specialty-grid">
-            <div class="specialty-card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <div class="specialty-image">
-                            <img src="https://source.unsplash.com/800x600/?anime-manga" alt="Anime & Manga">
-                            <div class="specialty-icon">
-                                <i class="fas fa-book-open"></i>
+        <div class="content-wrapper">
+            <div class="specialty-grid">
+                <div class="specialty-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="specialty-image">
+                                <img src="https://source.unsplash.com/800x600/?anime-manga" alt="Anime & Manga">
+                                <div class="specialty-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                            </div>
+                            <div class="specialty-info">
+                                <h3>Anime & Manga</h3>
+                                <p>Global cultural influence through distinctive animation and comic art styles.</p>
                             </div>
                         </div>
-                        <div class="specialty-info">
-                            <h3>Anime & Manga</h3>
-                            <p>Global cultural influence through distinctive animation and comic art styles.</p>
+                        <div class="card-back">
+                            <img src="https://source.unsplash.com/800x600/?anime-convention" alt="Anime Culture">
                         </div>
-                    </div>
-                    <div class="card-back">
-                        <img src="https://source.unsplash.com/800x600/?anime-convention" alt="Anime Culture">
                     </div>
                 </div>
-            </div>
 
-            <div class="specialty-card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <div class="specialty-image">
-                            <img src="https://source.unsplash.com/800x600/?japanese-robotics" alt="Technology">
-                            <div class="specialty-icon">
-                                <i class="fas fa-robot"></i>
+                <div class="specialty-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="specialty-image">
+                                <img src="https://source.unsplash.com/800x600/?japanese-robotics" alt="Technology">
+                                <div class="specialty-icon">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                            </div>
+                            <div class="specialty-info">
+                                <h3>Technology</h3>
+                                <p>Leading innovations in robotics, electronics, and automotive engineering.</p>
                             </div>
                         </div>
-                        <div class="specialty-info">
-                            <h3>Technology</h3>
-                            <p>Leading innovations in robotics, electronics, and automotive engineering.</p>
+                        <div class="card-back">
+                            <img src="https://source.unsplash.com/800x600/?japanese-technology" alt="Japanese Technology">
                         </div>
-                    </div>
-                    <div class="card-back">
-                        <img src="https://source.unsplash.com/800x600/?japanese-technology" alt="Japanese Technology">
                     </div>
                 </div>
-            </div>
 
-            <div class="specialty-card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <div class="specialty-image">
-                            <img src="https://source.unsplash.com/800x600/?japanese-crafts" alt="Traditional Crafts">
-                            <div class="specialty-icon">
-                                <i class="fas fa-paint-brush"></i>
+                <div class="specialty-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="specialty-image">
+                                <img src="https://source.unsplash.com/800x600/?japanese-crafts" alt="Traditional Crafts">
+                                <div class="specialty-icon">
+                                    <i class="fas fa-paint-brush"></i>
+                                </div>
+                            </div>
+                            <div class="specialty-info">
+                                <h3>Traditional Crafts</h3>
+                                <p>Centuries-old artistry in pottery, textiles, and paper crafts.</p>
                             </div>
                         </div>
-                        <div class="specialty-info">
-                            <h3>Traditional Crafts</h3>
-                            <p>Centuries-old artistry in pottery, textiles, and paper crafts.</p>
+                        <div class="card-back">
+                            <img src="https://source.unsplash.com/800x600/?japanese-pottery" alt="Traditional Crafts">
                         </div>
-                    </div>
-                    <div class="card-back">
-                        <img src="https://source.unsplash.com/800x600/?japanese-pottery" alt="Traditional Crafts">
                     </div>
                 </div>
-            </div>
 
-            <div class="specialty-card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <div class="specialty-image">
-                            <img src="https://source.unsplash.com/800x600/?japanese-games" alt="Gaming">
-                            <div class="specialty-icon">
-                                <i class="fas fa-gamepad"></i>
+                <div class="specialty-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="specialty-image">
+                                <img src="https://source.unsplash.com/800x600/?japanese-games" alt="Gaming">
+                                <div class="specialty-icon">
+                                    <i class="fas fa-gamepad"></i>
+                                </div>
+                            </div>
+                            <div class="specialty-info">
+                                <h3>Gaming Industry</h3>
+                                <p>Pioneering video game development and entertainment systems.</p>
                             </div>
                         </div>
-                        <div class="specialty-info">
-                            <h3>Gaming Industry</h3>
-                            <p>Pioneering video game development and entertainment systems.</p>
+                        <div class="card-back">
+                            <img src="https://source.unsplash.com/800x600/?video-games" alt="Gaming">
                         </div>
-                    </div>
-                    <div class="card-back">
-                        <img src="https://source.unsplash.com/800x600/?video-games" alt="Gaming">
                     </div>
                 </div>
-            </div>
 
-            <div class="specialty-card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <div class="specialty-image">
-                            <img src="https://source.unsplash.com/800x600/?zen-garden" alt="Gardens">
-                            <div class="specialty-icon">
-                                <i class="fas fa-spa"></i>
+                <div class="specialty-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="specialty-image">
+                                <img src="https://source.unsplash.com/800x600/?zen-garden" alt="Gardens">
+                                <div class="specialty-icon">
+                                    <i class="fas fa-spa"></i>
+                                </div>
+                            </div>
+                            <div class="specialty-info">
+                                <h3>Garden Design</h3>
+                                <p>Masterful landscape architecture embodying harmony with nature.</p>
                             </div>
                         </div>
-                        <div class="specialty-info">
-                            <h3>Garden Design</h3>
-                            <p>Masterful landscape architecture embodying harmony with nature.</p>
+                        <div class="card-back">
+                            <img src="https://source.unsplash.com/800x600/?japanese-garden" alt="Gardens">
                         </div>
-                    </div>
-                    <div class="card-back">
-                        <img src="https://source.unsplash.com/800x600/?japanese-garden" alt="Gardens">
                     </div>
                 </div>
-            </div>
 
-            <div class="specialty-card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <div class="specialty-image">
-                            <img src="https://source.unsplash.com/800x600/?martial-arts" alt="Martial Arts">
-                            <div class="specialty-icon">
-                                <i class="fas fa-fist-raised"></i>
+                <div class="specialty-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="specialty-image">
+                                <img src="https://source.unsplash.com/800x600/?martial-arts" alt="Martial Arts">
+                                <div class="specialty-icon">
+                                    <i class="fas fa-fist-raised"></i>
+                                </div>
+                            </div>
+                            <div class="specialty-info">
+                                <h3>Martial Arts</h3>
+                                <p>Ancient traditions of discipline and self-improvement through combat arts.</p>
                             </div>
                         </div>
-                        <div class="specialty-info">
-                            <h3>Martial Arts</h3>
-                            <p>Ancient traditions of discipline and self-improvement through combat arts.</p>
+                        <div class="card-back">
+                            <img src="https://source.unsplash.com/800x600/?karate-dojo" alt="Martial Arts">
                         </div>
-                    </div>
-                    <div class="card-back">
-                        <img src="https://source.unsplash.com/800x600/?karate-dojo" alt="Martial Arts">
                     </div>
                 </div>
             </div>

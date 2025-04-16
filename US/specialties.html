@@ -90,6 +90,30 @@
             height: calc(100% - 60px);
             padding: 20px;
             overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--red) rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Scrollbar Styles */
+        .content-wrapper::-webkit-scrollbar {
+            width: 15px;
+        }
+
+        .content-wrapper::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 5px;
+        }
+
+        .content-wrapper::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, var(--red), var(--blue));
+            border-radius: 10px;
+            border: 3px solid rgba(0, 0, 0, 0.7);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .content-wrapper::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, var(--blue), var(--red));
         }
 
         .specialty-grid {
