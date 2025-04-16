@@ -90,33 +90,110 @@ const visitedCountries = new Set(
 );
 const totalCountries = 4; // India, USA, Japan, Australia
 
+// Initialize on page load with reset
+window.addEventListener('load', () => {
+    if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+        sessionStorage.clear();
+        visitedCountries.clear();
+    }
+    updateProgressBar();
+    animateProgressBarEntry();
+});
+
+function animateProgressBarEntry() {
+    progressBarContainer.style.opacity = '0';
+    progressBarContainer.style.transform = 'translateY(-50%) translateX(-20px)';
+    progressBarContainer.style.display = 'flex';
+    
+    requestAnimationFrame(() => {
+        progressBarContainer.style.opacity = '1';
+        progressBarContainer.style.transform = 'translateY(-50%) translateX(0)';
+    });
+}
+
 // Update the progress bar function
 function updateProgressBar() {
-    const progress = (visitedCountries.size / totalCountries) * 100;
-    const snowflakes = Array.from(document.querySelectorAll('.snowflake')).reverse();
-    const snowflakesToFill = Math.floor((visitedCountries.size / totalCountries) * 8); // 8 snowflakes total
+    const snowflakes = Array.from(document.querySelectorAll('.snowflake'));
+    const snowflakesToFill = visitedCountries.size * 2;
     
-    snowflakes.forEach((snowflake, index) => {
-        setTimeout(() => {
-            if (index < snowflakesToFill) {
-                snowflake.classList.add('active');
-            } else {
-                snowflake.classList.remove('active');
-            }
-        }, index * 100);
+    // Reset all snowflakes
+    snowflakes.forEach(snowflake => {
+        snowflake.classList.remove('active', 'falling', 'glow');
+        snowflake.style.top = '-50px';
     });
+
+    // Activate snowflakes with falling animation
+    for(let i = 0; i < snowflakesToFill; i++) {
+        if (snowflakes[i]) {
+            setTimeout(() => {
+                snowflakes[i].classList.add('falling', 'glow');
+                
+                // Add permanent effects after landing
+                setTimeout(() => {
+                    snowflakes[i].classList.remove('falling');
+                    snowflakes[i].classList.add('active');
+                    createParticles(snowflakes[i]);
+                    createShineEffect(snowflakes[i]);
+                }, 1500);
+            }, i * 400);
+        }
+    }
+}
+
+function createCascadingEffect(snowflake, index) {
+    // Add initial drop animation class
+    snowflake.classList.add('dropping');
+    
+    // Create shine and pulse effects after drop
+    setTimeout(() => {
+        snowflake.classList.remove('dropping');
+        snowflake.classList.add('pulse', 'trace', 'shine');
+        createParticles(snowflake);
+        createShineEffect(snowflake);
+    }, 500);
+}
+
+function createParticles(snowflake) {
+    const particles = 8;
+    for(let i = 0; i < particles; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        const angle = (i / particles) * 360;
+        const distance = 20;
+        particle.style.transform = `rotate(${angle}deg) translateX(${distance}px)`;
+        snowflake.appendChild(particle);
+        
+        // Remove particle after animation
+        setTimeout(() => particle.remove(), 2000);
+    }
+}
+
+function createShineEffect(snowflake) {
+    // Create multiple shine effects
+    for(let i = 0; i < 3; i++) {
+        const shine = document.createElement('div');
+        shine.className = 'shine-effect';
+        shine.style.animationDelay = `${i * 0.3}s`;
+        snowflake.appendChild(shine);
+        
+        setTimeout(() => shine.remove(), 1000 + (i * 300));
+    }
 }
 
 function handleCountryVisit(country, redirectUrl) {
     if (!visitedCountries.has(country)) {
         saveVisitedCountry(country);
+        progressBarContainer.style.display = 'flex';
+        isProgressBarVisible = true;
+        toggleButton.textContent = "▼";
+        
         const progress = (visitedCountries.size / totalCountries) * 100;
         console.log(`Visited ${visitedCountries.size} countries, Progress: ${progress}%`);
         updateProgressBar();
         
         setTimeout(() => {
             window.location.href = redirectUrl;
-        }, 800);
+        }, 1500); // Longer delay to show animations
     } else {
         window.location.href = redirectUrl;
     }
