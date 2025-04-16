@@ -51,15 +51,24 @@
 
         h1 {
             text-align: center;
-            color: var(--red);
             font-size: clamp(1.8rem, 3vw, 3rem);
             margin: 1vh 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             background: linear-gradient(45deg, var(--red), var(--white), var(--blue));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { 
+                text-shadow: 0 0 20px rgba(179, 25, 66, 0.5);
+                transform: scale(1);
+            }
+            50% { 
+                text-shadow: 0 0 30px rgba(10, 49, 97, 0.5);
+                transform: scale(1.05);
+            }
         }
 
         .tabs {
@@ -88,9 +97,10 @@
 
         .food-section {
             display: none;
-            height: calc(100% - 100px);
+            height: calc(100% - 80px); /* Reduced from 100px to give more space */
             overflow: hidden;
             position: relative;
+            padding-bottom: 20px; /* Add padding to prevent cut-off */
         }
 
         .food-section.active {
@@ -99,50 +109,110 @@
 
         .food-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
             padding: 20px;
-            height: 100%;
+            max-height: 100%;
             overflow-y: auto;
+            scrollbar-width: thick; /* Changed from thin to thick */
+            scrollbar-color: var(--red) rgba(255, 255, 255, 0.1);
+            padding-right: 15px; /* Add padding for scrollbar */
+        }
+
+        /* Updated scrollbar size */
+        .food-grid::-webkit-scrollbar {
+            width: 15px; /* Increased from 12px */
+        }
+
+        .food-grid::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 5px;
+        }
+
+        .food-grid::-webkit-scrollbar-thumb {
+            background: var(--red);
+            border-radius: 10px;
+            border: 2px solid rgba(0, 0, 0, 0.7); /* Reduced from 3px */
+        }
+
+        .food-grid::-webkit-scrollbar-thumb:hover {
+            background: var(--blue);
         }
 
         .food-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
             overflow: hidden;
-            transition: transform 0.3s;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            height: 380px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .food-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            border-color: var(--red);
+            box-shadow: 0 15px 30px rgba(179, 25, 66, 0.3);
         }
 
         .food-image {
             width: 100%;
-            height: 200px;
+            height: 220px;
             object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .food-card:hover .food-image {
+            transform: scale(1.1);
         }
 
         .food-info {
-            padding: 15px;
+            padding: 20px;
             color: white;
+            background: linear-gradient(180deg, 
+                rgba(255,255,255,0.05) 0%,
+                rgba(255,255,255,0.02) 100%
+            );
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .food-info h2 {
             color: var(--red);
-            margin: 0 0 10px;
-            font-size: 1.5rem;
+            margin: 0;
+            font-size: 1.6rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .food-info p {
+            color: var(--white);
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.4;
         }
 
         .food-info .details {
             font-size: 0.9rem;
             color: #ccc;
-            margin: 5px 0;
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         @media (max-width: 1200px) {
             .food-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+            
+            .food-card {
+                height: 360px;
             }
         }
 
@@ -154,6 +224,15 @@
             
             .food-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .food-card {
+                height: 340px;
+            }
+            
+            .food-image {
+                height: 200px;
             }
         }
     </style>
@@ -194,6 +273,33 @@
                         <span class="details">Main ingredients: Pork ribs, BBQ sauce</span>
                     </div>
                 </div>
+
+                <div class="food-card">
+                    <img src="https://source.unsplash.com/800x600/?mac-and-cheese" alt="Mac and Cheese" class="food-image">
+                    <div class="food-info">
+                        <h2>Mac and Cheese</h2>
+                        <p>Ultimate comfort food</p>
+                        <span class="details">Main ingredients: Macaroni, cheese blend, breadcrumbs</span>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="https://source.unsplash.com/800x600/?fried-chicken" alt="Fried Chicken" class="food-image">
+                    <div class="food-info">
+                        <h2>Fried Chicken</h2>
+                        <p>Crispy Southern classic</p>
+                        <span class="details">Main ingredients: Chicken, seasoned breading</span>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="https://source.unsplash.com/800x600/?apple-pie" alt="Apple Pie" class="food-image">
+                    <div class="food-info">
+                        <h2>Apple Pie</h2>
+                        <p>As American as it gets</p>
+                        <span class="details">Main ingredients: Apples, cinnamon, pastry</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -223,6 +329,33 @@
                         <h2>Gumbo</h2>
                         <p>Louisiana favorite</p>
                         <span class="details">Region: South</span>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="https://source.unsplash.com/800x600/?philly-cheesesteak" alt="Philly Cheesesteak" class="food-image">
+                    <div class="food-info">
+                        <h2>Philly Cheesesteak</h2>
+                        <p>Philadelphia's famous sandwich</p>
+                        <span class="details">Region: Northeast</span>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="https://source.unsplash.com/800x600/?california-roll" alt="California Roll" class="food-image">
+                    <div class="food-info">
+                        <h2>California Roll</h2>
+                        <p>West Coast sushi innovation</p>
+                        <span class="details">Region: West Coast</span>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="https://source.unsplash.com/800x600/?tex-mex" alt="Tex-Mex" class="food-image">
+                    <div class="food-info">
+                        <h2>Tex-Mex</h2>
+                        <p>Texas-Mexican fusion cuisine</p>
+                        <span class="details">Region: Southwest</span>
                     </div>
                 </div>
             </div>

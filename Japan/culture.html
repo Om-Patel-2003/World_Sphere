@@ -14,7 +14,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, var(--red), var(--white), var(--black));
+            background: linear-gradient(135deg, var(--red) 20%, var(--white) 50%, var(--red) 80%);
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
@@ -41,13 +41,31 @@
             padding: 2vh 2vw;
             display: flex;
             flex-direction: column;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.85);
             border-radius: 25px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(15px);
             border: 4px solid;
-            border-image: linear-gradient(45deg, var(--red), var(--white), var(--black)) 1;
+            border-image: linear-gradient(45deg, var(--red), var(--white), var(--red)) 1;
             gap: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--red);
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            margin: 1vh 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, var(--red), var(--white), var(--black));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(188, 0, 45, 0.5); transform: scale(1); }
+            50% { text-shadow: 0 0 30px rgba(255, 255, 255, 0.5); transform: scale(1.05); }
         }
 
         .culture-section {
@@ -78,7 +96,7 @@
         }
 
         .culture-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2));
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(188, 0, 45, 0.1));
             border-radius: 20px;
             overflow: hidden;
             transition: all 4s ease;
@@ -87,9 +105,59 @@
             display: flex;
             flex-direction: column;
             position: relative;
+            cursor: pointer;
         }
 
-        
+        .culture-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--red);
+            box-shadow: 0 10px 25px rgba(188, 0, 45, 0.2);
+        }
+
+        .culture-image {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .culture-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .culture-card:hover .culture-image img {
+            transform: scale(1.1);
+        }
+
+        .culture-info {
+            position: relative;
+            z-index: 2;
+            padding: 25px;
+            color: white;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: linear-gradient(
+                180deg,
+                rgba(0,0,0,0.3) 0%,
+                rgba(188, 0, 45, 0.8) 50%,
+                rgba(0, 0, 0, 0.95) 100%
+            );
+            height: 100%;
+            justify-content: flex-end;
+            transform: translateY(60%);
+            transition: transform 0.5s ease;
+        }
+
+        .culture-card:hover .culture-info {
+            transform: translateY(0);
+        }
 
         .slide-controls {
             display: flex;
@@ -124,11 +192,11 @@
             <div class="culture-slide active" id="culture-1">
                 <div class="culture-card">
                     <div class="culture-image">
-                        <img src="https://source.unsplash.com/800x600/?tea-ceremony-japan" alt="Tea Ceremony">
+                        <img src="https://source.unsplash.com/800x600/?tea-ceremony" alt="Tea Ceremony">
                     </div>
                     <div class="culture-info">
                         <h2>🍵 Tea Ceremony</h2>
-                        <p>Experience the art of traditional Japanese tea ceremony (Chanoyu) and its mindful rituals.</p>
+                        <p>The traditional Japanese tea ceremony (Chado) embodies harmony, respect, purity, and tranquility.</p>
                     </div>
                 </div>
                 <div class="culture-card">
@@ -151,7 +219,33 @@
                 </div>
             </div>
             <div class="culture-slide" id="culture-2">
-                <!-- Add 3 more culture cards for second slide -->
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?kimono-japan" alt="Traditional Clothing">
+                    </div>
+                    <div class="culture-info">
+                        <h2>👘 Traditional Clothing</h2>
+                        <p>Beautiful kimono and yukata representing centuries of Japanese fashion and craftsmanship.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?zen-garden" alt="Gardens">
+                    </div>
+                    <div class="culture-info">
+                        <h2>🍃 Zen Gardens</h2>
+                        <p>Peaceful Japanese gardens designed for meditation and contemplation of nature.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?martial-arts-japan" alt="Martial Arts">
+                    </div>
+                    <div class="culture-info">
+                        <h2>🥋 Martial Arts</h2>
+                        <p>Traditional Japanese martial arts like Karate, Judo, and Aikido teaching discipline and respect.</p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="slide-controls">

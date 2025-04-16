@@ -104,6 +104,7 @@
             height: 400px;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .culture-card:hover {
@@ -112,13 +113,49 @@
             box-shadow: 0 10px 25px rgba(179, 25, 66, 0.2);
         }
 
+        .culture-image {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .culture-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .culture-card:hover .culture-image img {
+            transform: scale(1.1);
+        }
+
         .culture-info {
+            position: relative;
+            z-index: 2;
             padding: 25px;
             color: white;
             flex: 1;
             display: flex;
             flex-direction: column;
             gap: 15px;
+            background: linear-gradient(
+                180deg,
+                rgba(0,0,0,0.3) 0%,
+                rgba(0,0,0,0.8) 50%,
+                rgba(0,0,0,0.95) 100%
+            );
+            height: 100%;
+            justify-content: flex-end;
+            transform: translateY(60%);
+            transition: transform 0.5s ease;
+        }
+
+        .culture-card:hover .culture-info {
+            transform: translateY(0);
         }
 
         .culture-info h2 {
@@ -183,18 +220,27 @@
         <div class="culture-section">
             <div class="culture-slide active" id="culture-1">
                 <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?hollywood-sign" alt="Hollywood">
+                    </div>
                     <div class="culture-info">
                         <h2>🎬 Hollywood</h2>
                         <p>The world's entertainment capital, producing blockbuster movies and shaping global pop culture since the early 20th century.</p>
                     </div>
                 </div>
                 <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?american-football-stadium" alt="Sports">
+                    </div>
                     <div class="culture-info">
                         <h2>🏈 Sports</h2>
                         <p>From NFL Football to NBA Basketball, MLB Baseball, and NHL Hockey - sports are integral to American culture.</p>
                     </div>
                 </div>
                 <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?jazz-music" alt="Music">
+                    </div>
                     <div class="culture-info">
                         <h2>🎵 Music</h2>
                         <p>Birthplace of Jazz, Blues, Rock & Roll, Hip-Hop, and countless other influential music genres.</p>
@@ -203,18 +249,27 @@
             </div>
             <div class="culture-slide" id="culture-2">
                 <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?modern-art-museum" alt="Art">
+                    </div>
                     <div class="culture-info">
                         <h2>🎨 Art & Innovation</h2>
                         <p>From Abstract Expressionism to Pop Art, America has been at the forefront of artistic innovation.</p>
                     </div>
                 </div>
                 <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?independence-day" alt="Festivals">
+                    </div>
                     <div class="culture-info">
                         <h2>🎊 Festivals</h2>
                         <p>Celebrations like Thanksgiving, Independence Day, and diverse cultural festivals showcase American unity in diversity.</p>
                     </div>
                 </div>
                 <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?american-diversity" alt="Diversity">
+                    </div>
                     <div class="culture-info">
                         <h2>🌐 Diversity</h2>
                         <p>A melting pot of cultures, traditions, and customs from around the world, making America uniquely diverse.</p>

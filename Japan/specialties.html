@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Japanese Specialties</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --red: #BC002D;
@@ -13,41 +14,310 @@
         }
 
         body {
-            background: linear-gradient(135deg, var(--red), var(--white), var(--black));
+            background: linear-gradient(135deg, var(--red) 20%, var(--white) 50%, var(--red) 80%);
             font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: gradientBG 15s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .info-text {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            color: var(--white);
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .info-text span {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            height: 85vh;
+            margin: 0;
+            padding: 2vh 2vw;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            border: 4px solid;
+            border-image: linear-gradient(45deg, var(--red), var(--white), var(--red)) 1;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--red);
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            margin: 2vh 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, var(--red), var(--white));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(188, 0, 45, 0.5); transform: scale(1); }
+            50% { text-shadow: 0 0 30px rgba(255, 255, 255, 0.5); transform: scale(1.05); }
         }
 
         .specialty-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
             padding: 20px;
         }
 
         .specialty-card {
-            background: rgba(255, 255, 255, 0.1);
+            height: 380px;
+            perspective: 1000px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .specialty-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
             border-radius: 15px;
-            padding: 20px;
-            color: white;
+            overflow: hidden;
+        }
+
+        .card-front {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-back {
+            background: var(--red);
+            transform: rotateY(180deg);
+        }
+
+        .card-back img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+        }
+
+        .specialty-image {
+            height: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .specialty-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .specialty-card:hover .specialty-image img {
+            transform: scale(1.1);
+        }
+
+        .specialty-icon {
+            position: absolute;
+            bottom: -25px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .specialty-info {
+            padding: 30px 20px 20px;
+            color: var(--white);
+        }
+
+        .specialty-info h3 {
+            color: var(--white);
+            font-size: 1.4rem;
+            margin: 0;
+        }
+
+        .specialty-info p {
+            color: #ccc;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 10px 0 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 92%;
+                height: 88vh;
+            }
+            .specialty-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="info-text">
+        "Where <span>tradition</span> meets <span>innovation</span>"
+    </div>
     <div class="container">
         <h1>🎌 Japanese Specialties</h1>
         <div class="specialty-grid">
             <div class="specialty-card">
-                <div class="specialty-icon">⛩️</div>
-                <div class="specialty-info">
-                    <h2>Traditional Arts</h2>
-                    <p>Ikebana, Calligraphy, and Tea Ceremony</p>
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="specialty-image">
+                            <img src="https://source.unsplash.com/800x600/?anime-manga" alt="Anime & Manga">
+                            <div class="specialty-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                        </div>
+                        <div class="specialty-info">
+                            <h3>Anime & Manga</h3>
+                            <p>Global cultural influence through distinctive animation and comic art styles.</p>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <img src="https://source.unsplash.com/800x600/?anime-convention" alt="Anime Culture">
+                    </div>
                 </div>
             </div>
+
             <div class="specialty-card">
-                <div class="specialty-icon">🤖</div>
-                <div class="specialty-info">
-                    <h2>Technology</h2>
-                    <p>Robotics, Electronics, and Innovation</p>
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="specialty-image">
+                            <img src="https://source.unsplash.com/800x600/?japanese-robotics" alt="Technology">
+                            <div class="specialty-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                        </div>
+                        <div class="specialty-info">
+                            <h3>Technology</h3>
+                            <p>Leading innovations in robotics, electronics, and automotive engineering.</p>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <img src="https://source.unsplash.com/800x600/?japanese-technology" alt="Japanese Technology">
+                    </div>
+                </div>
+            </div>
+
+            <div class="specialty-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="specialty-image">
+                            <img src="https://source.unsplash.com/800x600/?japanese-crafts" alt="Traditional Crafts">
+                            <div class="specialty-icon">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                        </div>
+                        <div class="specialty-info">
+                            <h3>Traditional Crafts</h3>
+                            <p>Centuries-old artistry in pottery, textiles, and paper crafts.</p>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <img src="https://source.unsplash.com/800x600/?japanese-pottery" alt="Traditional Crafts">
+                    </div>
+                </div>
+            </div>
+
+            <div class="specialty-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="specialty-image">
+                            <img src="https://source.unsplash.com/800x600/?japanese-games" alt="Gaming">
+                            <div class="specialty-icon">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                        </div>
+                        <div class="specialty-info">
+                            <h3>Gaming Industry</h3>
+                            <p>Pioneering video game development and entertainment systems.</p>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <img src="https://source.unsplash.com/800x600/?video-games" alt="Gaming">
+                    </div>
+                </div>
+            </div>
+
+            <div class="specialty-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="specialty-image">
+                            <img src="https://source.unsplash.com/800x600/?zen-garden" alt="Gardens">
+                            <div class="specialty-icon">
+                                <i class="fas fa-spa"></i>
+                            </div>
+                        </div>
+                        <div class="specialty-info">
+                            <h3>Garden Design</h3>
+                            <p>Masterful landscape architecture embodying harmony with nature.</p>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <img src="https://source.unsplash.com/800x600/?japanese-garden" alt="Gardens">
+                    </div>
+                </div>
+            </div>
+
+            <div class="specialty-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="specialty-image">
+                            <img src="https://source.unsplash.com/800x600/?martial-arts" alt="Martial Arts">
+                            <div class="specialty-icon">
+                                <i class="fas fa-fist-raised"></i>
+                            </div>
+                        </div>
+                        <div class="specialty-info">
+                            <h3>Martial Arts</h3>
+                            <p>Ancient traditions of discipline and self-improvement through combat arts.</p>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <img src="https://source.unsplash.com/800x600/?karate-dojo" alt="Martial Arts">
+                    </div>
                 </div>
             </div>
         </div>

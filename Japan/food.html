@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Japanese Cuisine</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --red: #BC002D;
@@ -13,27 +14,87 @@
         }
 
         body {
-            background: linear-gradient(135deg, var(--red), var(--white), var(--black));
+            background: linear-gradient(135deg, var(--red) 20%, var(--white) 50%, var(--red) 80%);
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: gradientBG 15s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
         }
 
         .container {
             width: 85%;
             max-width: 1200px;
+            height: 85vh;
             margin: 2vh auto;
             padding: 2vh 2vw;
             background: rgba(0, 0, 0, 0.85);
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            border: 4px solid;
+            border-image: linear-gradient(45deg, var(--red), var(--white), var(--red)) 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--red);
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            margin: 1vh 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, var(--red), var(--white));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(188, 0, 45, 0.5); transform: scale(1); }
+            50% { text-shadow: 0 0 30px rgba(255, 255, 255, 0.5); transform: scale(1.05); }
+        }
+
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 10px;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border: none;
             border-radius: 20px;
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .filter-btn.active {
+            background: var(--red);
+            color: var(--white);
         }
 
         .food-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 25px;
             padding: 20px;
         }
 
@@ -41,34 +102,145 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             overflow: hidden;
-            transition: transform 0.3s;
+            transition: all 0.4s;
+            position: relative;
+            height: 350px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        h1 {
-            text-align: center;
+        .food-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--red);
+            box-shadow: 0 10px 20px rgba(188, 0, 45, 0.2);
+        }
+
+        .food-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .food-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .food-info {
+            padding: 20px;
             color: var(--white);
+            background: linear-gradient(
+                180deg,
+                rgba(0,0,0,0.8) 0%,
+                rgba(188, 0, 45, 0.8) 100%
+            );
+            height: calc(100% - 200px);
+        }
+
+        .food-info h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.4rem;
+            color: var(--white);
+        }
+
+        .food-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 92%;
+                height: 88vh;
+            }
+            
+            .food-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 15px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🍱 Japanese Cuisine</h1>
+        
+        <div class="category-filter">
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="main">Main Dishes</button>
+            <button class="filter-btn" data-category="noodles">Noodles</button>
+            <button class="filter-btn" data-category="snacks">Snacks</button>
+        </div>
+
         <div class="food-grid">
-            <div class="food-card">
+            <div class="food-card" data-category="main">
                 <img src="https://source.unsplash.com/800x600/?sushi" alt="Sushi">
                 <div class="food-info">
-                    <h2>Sushi</h2>
-                    <p>Fresh fish and seafood with vinegared rice</p>
+                    <h2>🍣 Sushi</h2>
+                    <p>Fresh fish and seafood with vinegared rice, embodying Japanese precision and artistry.</p>
                 </div>
             </div>
-            <div class="food-card">
+            <div class="food-card" data-category="noodles">
                 <img src="https://source.unsplash.com/800x600/?ramen" alt="Ramen">
                 <div class="food-info">
-                    <h2>Ramen</h2>
-                    <p>Noodle soup with various toppings</p>
+                    <h2>🍜 Ramen</h2>
+                    <p>Rich and flavorful noodle soup with various toppings, a beloved comfort food.</p>
+                </div>
+            </div>
+            <div class="food-card" data-category="main">
+                <img src="https://source.unsplash.com/800x600/?tempura" alt="Tempura">
+                <div class="food-info">
+                    <h2>🍤 Tempura</h2>
+                    <p>Crispy battered seafood and vegetables, perfectly light and crunchy.</p>
+                </div>
+            </div>
+            <div class="food-card" data-category="main">
+                <img src="https://source.unsplash.com/800x600/?japanese-curry" alt="Curry Rice">
+                <div class="food-info">
+                    <h2>🍛 Curry Rice</h2>
+                    <p>Japanese-style curry with tender meat and vegetables over steamed rice.</p>
+                </div>
+            </div>
+            <div class="food-card" data-category="snacks">
+                <img src="https://source.unsplash.com/800x600/?mochi" alt="Mochi">
+                <div class="food-info">
+                    <h2>🍡 Mochi</h2>
+                    <p>Soft and chewy rice cakes in various flavors, a traditional Japanese sweet.</p>
+                </div>
+            </div>
+            <div class="food-card" data-category="noodles">
+                <img src="https://source.unsplash.com/800x600/?udon" alt="Udon">
+                <div class="food-info">
+                    <h2>🥘 Udon</h2>
+                    <p>Thick wheat noodles in hot soup or stir-fried with vegetables.</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const foodCards = document.querySelectorAll('.food-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const category = btn.dataset.category;
+                
+                foodCards.forEach(card => {
+                    if(category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
