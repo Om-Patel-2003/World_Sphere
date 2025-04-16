@@ -39,26 +39,22 @@ const markerMesh = new THREE.Mesh(markerGeometry, markerMaterial);
 markerMesh.visible = false;
 scene.add(markerMesh);
 
-// Ensure the progress bar container is appended to the DOM and visible when toggled
+// Create progress bar container
 const progressBarContainer = document.createElement("div");
 progressBarContainer.id = "progress-bar-container";
-progressBarContainer.style.position = "fixed";
-progressBarContainer.style.right = "0";
-progressBarContainer.style.bottom = "0";
-progressBarContainer.style.width = "20px";
-progressBarContainer.style.height = "100%";
-progressBarContainer.style.borderRadius = "0";
-progressBarContainer.style.overflow = "hidden";
-progressBarContainer.style.border = "none";
-progressBarContainer.style.display = "none"; // Initially hidden
 progressBarContainer.innerHTML = `
-  <div id="progress-bar-fill" style="
-    width: 100%;
-    height: 0;
-    background-color: #4caf50;
-    border-radius: 0;
-    clip-path: none;
-  "></div>
+    <div class="progress-track">
+        <div class="snowflake-progress">
+            <span class="snowflake" data-value="12.5">❄</span>
+            <span class="snowflake" data-value="25">❄</span>
+            <span class="snowflake" data-value="37.5">❄</span>
+            <span class="snowflake" data-value="50">❄</span>
+            <span class="snowflake" data-value="62.5">❄</span>
+            <span class="snowflake" data-value="75">❄</span>
+            <span class="snowflake" data-value="87.5">❄</span>
+            <span class="snowflake" data-value="100">❄</span>
+        </div>
+    </div>
 `;
 document.body.appendChild(progressBarContainer);
 
@@ -94,30 +90,51 @@ const visitedCountries = new Set(
 );
 const totalCountries = 4; // India, USA, Japan, Australia
 
-// Update progress bar to use rectangular filling
+// Update the progress bar function
 function updateProgressBar() {
-  const progress = (visitedCountries.size / totalCountries) * 100;
-  const progressBarFill = document.getElementById("progress-bar-fill");
-  progressBarFill.style.height = `${progress}%`;
+    const progress = (visitedCountries.size / totalCountries) * 100;
+    const snowflakes = Array.from(document.querySelectorAll('.snowflake')).reverse();
+    const snowflakesToFill = Math.floor((visitedCountries.size / totalCountries) * 8); // 8 snowflakes total
+    
+    snowflakes.forEach((snowflake, index) => {
+        setTimeout(() => {
+            if (index < snowflakesToFill) {
+                snowflake.classList.add('active');
+            } else {
+                snowflake.classList.remove('active');
+            }
+        }, index * 100);
+    });
+}
 
-  // Update progress bar to use single circular white dots during progress filling
-  progressBarFill.style.backgroundImage = `radial-gradient(circle, white 50%, transparent 50%)`;
-  progressBarFill.style.backgroundSize = "20px 20px";
-  progressBarFill.style.backgroundColor = "transparent";
+function handleCountryVisit(country, redirectUrl) {
+    if (!visitedCountries.has(country)) {
+        saveVisitedCountry(country);
+        const progress = (visitedCountries.size / totalCountries) * 100;
+        console.log(`Visited ${visitedCountries.size} countries, Progress: ${progress}%`);
+        updateProgressBar();
+        
+        setTimeout(() => {
+            window.location.href = redirectUrl;
+        }, 800);
+    } else {
+        window.location.href = redirectUrl;
+    }
 }
 
 // Save visited countries to sessionStorage
 function saveVisitedCountry(country) {
-  visitedCountries.add(country);
-  sessionStorage.setItem(
-    "visitedCountries",
-    JSON.stringify([...visitedCountries])
-  );
+    visitedCountries.add(country);
+    const visitedArray = Array.from(visitedCountries);
+    sessionStorage.setItem("visitedCountries", JSON.stringify(visitedArray));
+    updateProgressBar();
 }
 
-// Initialize progress bar on page load
+// Initialize on DOM load
 window.addEventListener("DOMContentLoaded", () => {
-  updateProgressBar();
+    const savedCountries = JSON.parse(sessionStorage.getItem("visitedCountries")) || [];
+    savedCountries.forEach(country => visitedCountries.add(country));
+    updateProgressBar();
 });
 
 fetch("./geojson/countries_states.geojson")
@@ -215,59 +232,23 @@ function onMouseClick(event) {
     }
 
     if (isUSARegion1 || isUSARegion2 || isUSARegion3) {
-      saveVisitedCountry("USA");
-      updateProgressBar();
-      window.location.href = "./US/US.html";
+      handleCountryVisit("USA", "./US/US.html");
       console.log("You clicked on the USA!");
-    } else {
-      console.log("This is not the USA");
     }
 
     if (clickedJapan) {
-      saveVisitedCountry("Japan");
-      updateProgressBar();
-      window.location.href = "./Japan/Japan.html";
+      handleCountryVisit("Japan", "./Japan/Japan.html");
       console.log("You clicked near Japan");
-    }
-
-    if (isUSARegion1 || isUSARegion2 || isUSARegion3) {
-      saveVisitedCountry("USA");
-      updateProgressBar();
-      console.log("You clicked on the USA!");
-    } else {
-      console.log("This is not the USA");
-    }
-
-    if (clickedJapan) {
-      saveVisitedCountry("Japan");
-      updateProgressBar();
-      console.log("You clicked near Japan");
-
-      // 📍 Show marker just above globe surface
-      // const markerPosition = intersectPoint.multiplyScalar(globeRadius + 0.05);
-      // markerMesh.position.copy(markerPosition);
-      // markerMesh.visible = true;
-    } else {
-      console.log("This is not Japan");
-      markerMesh.visible = false;
     }
 
     if (isIndia) {
-      saveVisitedCountry("India");
-      updateProgressBar();
+      handleCountryVisit("India", "./India/India.html");
       console.log("You clicked on India!");
-      window.location.href = "./India/India.html";
-    } else {
-      console.log("This is not India");
     }
 
     if (isAustralia) {
-      saveVisitedCountry("Australia");
-      updateProgressBar();
-      window.location.href = "./Australia/Australia.html";
+      handleCountryVisit("Australia", "./Australia/Australia.html");
       console.log("You clicked near Australia!");
-    } else {
-      console.log("This is not near Australia");
     }
   }
 }

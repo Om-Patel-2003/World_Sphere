@@ -1,49 +1,154 @@
 #progress-bar-container {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 20px; /* Reduced height for a slim progress bar */
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    padding: 20px 15px;
+    border-radius: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4),
+                inset 0 0 15px rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.progress-track {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px 0;
+    gap: 35px;
+    align-items: center;
+}
+
+.snowflake-progress {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+}
+
+.snowflake {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.15);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.8) translateY(10px);
+    opacity: 0.3;
+    cursor: default;
+    position: relative;
+}
+
+.snowflake.active {
+    color: #fff;
+    transform: scale(1.1) translateY(0);
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+    animation: snowflakeActivate 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+               snowflakeFloat 2s ease-in-out infinite;
+}
+
+.loading-text {
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    text-align: center;
+    margin: 10px 0;
+    letter-spacing: 1px;
+}
+
+@keyframes snowflakeActivate {
+    0% { transform: scale(0.8) translateY(15px); opacity: 0.3; }
+    50% { transform: scale(1.2) translateY(-5px); }
+    100% { transform: scale(1.1) translateY(0); opacity: 1; }
+}
+
+@keyframes snowflakeFloat {
+    0%, 100% { transform: translateY(0) scale(1.1); }
+    50% { transform: translateY(-3px) scale(1.15); }
+}
+
+@keyframes snowflakeFill {
+    0% { 
+        transform: scale(0.8) translateY(20px);
+        opacity: 0.2;
+    }
+    50% { 
+        transform: scale(1.2);
+    }
+    100% { 
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes snowflakeGlow {
+    0%, 100% { 
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        transform: scale(1);
+    }
+    50% { 
+        text-shadow: 0 0 40px rgba(255, 255, 255, 1);
+        transform: scale(1.1);
+    }
+}
+
+#progress-bar-toggle {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
-  }
-  
-  #progress-bar-toggle {
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px 0 0 5px;
-  }
-  
-  #progress-bar {
+    transition: all 0.3s ease;
+}
+
+#progress-bar-toggle:hover {
+    transform: scale(1.1);
+    background: rgba(0, 0, 0, 0.9);
+}
+
+#progress-bar {
     width: 100%;
     height: 100%;
     background-color: #ddd;
     border-radius: 0;
     overflow: hidden;
     position: relative;
-  }
-  
-  #progress-bar.visible {
+}
+
+#progress-bar.visible {
     visibility: visible;
     opacity: 1;
-  }
-  
-  #progress-bar-fill {
+}
+
+#progress-bar-fill {
     height: 100%;
     background-color: #4caf50;
     width: 0;
     transition: width 0.5s ease;
-  }
-  
-  #progress-bar-text {
+}
+
+#progress-bar-text {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-weight: bold;
     color: #fff;
-  }
+}
