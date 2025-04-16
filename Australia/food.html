@@ -4,28 +4,269 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Australian Cuisine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --navy: #00008B;
             --white: #FFFFFF;
             --red: #FF0000;
         }
-       
+
+        body {
+            background: linear-gradient(135deg, var(--navy) 20%, var(--white) 50%, var(--red) 80%);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: gradientBG 15s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            height: 85vh;
+            margin: 2vh auto;
+            padding: 2vh 2vw;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            border: 4px solid;
+            border-image: linear-gradient(45deg, var(--navy), var(--white), var(--red)) 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+            scrollbar-width: thick;
+            scrollbar-color: var(--navy) rgba(255, 255, 255, 0.1);
+            padding-right: 15px;
+        }
+
+        /* Custom Scrollbar Styling */
+        .container::-webkit-scrollbar {
+            width: 15px;
+        }
+
+        .container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 5px;
+        }
+
+        .container::-webkit-scrollbar-thumb {
+            background: var(--navy);
+            border-radius: 10px;
+            border: 2px solid rgba(0, 0, 0, 0.7);
+        }
+
+        .container::-webkit-scrollbar-thumb:hover {
+            background: var(--red);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            margin: 1vh 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, var(--navy), var(--white), var(--red));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(0, 0, 139, 0.5); transform: scale(1); }
+            50% { text-shadow: 0 0 30px rgba(255, 0, 0, 0.5); transform: scale(1.05); }
+        }
+
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 10px;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .filter-btn.active {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .food-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s;
+            position: relative;
+            height: 350px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .food-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--navy);
+            box-shadow: 0 10px 20px rgba(0, 0, 139, 0.2);
+        }
+
+        .food-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .food-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .food-info {
+            padding: 20px;
+            color: var(--white);
+            background: linear-gradient(
+                180deg,
+                rgba(0,0,0,0.8) 0%,
+                rgba(0, 0, 139, 0.8) 100%
+            );
+            height: calc(100% - 200px);
+        }
+
+        .food-info h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.4rem;
+            color: var(--white);
+        }
+
+        .food-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 92%;
+                height: 88vh;
+            }
+            
+            .food-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 15px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🍖 Australian Cuisine</h1>
+        <h1>🦘 Australian Cuisine</h1>
+        
+        <div class="category-filter">
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="mains">Main Dishes</button>
+            <button class="filter-btn" data-category="classics">Classics</button>
+            <button class="filter-btn" data-category="desserts">Desserts</button>
+        </div>
+
         <div class="food-grid">
-            <div class="food-card">
+            <div class="food-card" data-category="mains">
                 <img src="https://source.unsplash.com/800x600/?australian-bbq" alt="Aussie BBQ">
                 <div class="food-info">
-                    <h2>Aussie BBQ</h2>
-                    <p>Classic Australian barbecue with snags and prawns</p>
+                    <h2>🍖 Aussie BBQ</h2>
+                    <p>Classic Australian barbecue featuring snags (sausages), prawns, and perfectly grilled meats.</p>
                 </div>
             </div>
-            <!-- Add more food cards for Vegemite, meat pies, etc. -->
+
+            <div class="food-card" data-category="classics">
+                <img src="https://source.unsplash.com/800x600/?meat-pie" alt="Meat Pie">
+                <div class="food-info">
+                    <h2>🥧 Meat Pie</h2>
+                    <p>Iconic Australian hand-held pie filled with minced meat and gravy, perfect at sports events.</p>
+                </div>
+            </div>
+
+            <div class="food-card" data-category="classics">
+                <img src="https://source.unsplash.com/800x600/?vegemite-toast" alt="Vegemite">
+                <div class="food-info">
+                    <h2>🍞 Vegemite Toast</h2>
+                    <p>Australia's favorite breakfast spread, made from leftover brewers' yeast extract.</p>
+                </div>
+            </div>
+
+            <div class="food-card" data-category="desserts">
+                <img src="https://source.unsplash.com/800x600/?pavlova" alt="Pavlova">
+                <div class="food-info">
+                    <h2>🍰 Pavlova</h2>
+                    <p>Light and airy meringue dessert topped with fresh cream and fruits.</p>
+                </div>
+            </div>
+
+            <div class="food-card" data-category="mains">
+                <img src="https://source.unsplash.com/800x600/?fish-and-chips" alt="Fish and Chips">
+                <div class="food-info">
+                    <h2>🐟 Fish and Chips</h2>
+                    <p>Fresh battered fish with thick-cut chips, a beachside favorite.</p>
+                </div>
+            </div>
+
+            <div class="food-card" data-category="desserts">
+                <img src="https://source.unsplash.com/800x600/?lamington" alt="Lamingtons">
+                <div class="food-info">
+                    <h2>🧁 Lamingtons</h2>
+                    <p>Sponge cake squares coated in chocolate and desiccated coconut.</p>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const foodCards = document.querySelectorAll('.food-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const category = btn.dataset.category;
+                
+                foodCards.forEach(card => {
+                    if(category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

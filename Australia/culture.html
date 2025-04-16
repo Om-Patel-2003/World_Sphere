@@ -8,26 +8,310 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --navy: #00008B;
+            --blue: #00008B;
             --white: #FFFFFF;
-            --red: #FF0000;
+            --red: #B31942;
         }
-       
+
+        body {
+            background: linear-gradient(135deg, var(--red), var(--white), var(--blue));
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            animation: gradientBG 15s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            height: 85vh;
+            margin: 0;
+            padding: 2vh 2vw;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            border: 4px solid;
+            border-image: linear-gradient(45deg, var(--red), var(--white), var(--blue)) 1;
+            gap: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--red);
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            margin: 1vh 0;
+            background: linear-gradient(45deg, var(--red), var(--white), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        .culture-section {
+            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--red) rgba(255, 255, 255, 0.1);
+        }
+
+        .culture-slide {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            padding: 15px;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.4s ease-out;
+            height: calc(100% - 40px);
+        }
+
+        .culture-slide.active {
+            display: grid;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .culture-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2));
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .culture-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--red);
+            box-shadow: 0 10px 25px rgba(179, 25, 66, 0.2);
+        }
+
+        .culture-image {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .culture-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .culture-card:hover .culture-image img {
+            transform: scale(1.1);
+        }
+
+        .culture-info {
+            position: relative;
+            z-index: 2;
+            padding: 25px;
+            color: white;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: linear-gradient(
+                180deg,
+                rgba(0,0,0,0.3) 0%,
+                rgba(0,0,0,0.8) 50%,
+                rgba(0,0,0,0.95) 100%
+            );
+            height: 100%;
+            justify-content: flex-end;
+            transform: translateY(60%);
+            transition: transform 0.5s ease;
+        }
+
+        .culture-card:hover .culture-info {
+            transform: translateY(0);
+        }
+
+        .culture-info h2 {
+            color: var(--red);
+            margin: 0;
+            font-size: 1.6rem;
+        }
+
+        .culture-info p {
+            margin: 0;
+            line-height: 1.7;
+            font-size: 1rem;
+            color: #f0f0f0;
+        }
+
+        .slide-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .slide-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+
+        .slide-btn.active {
+            background: var(--red);
+            color: white;
+            font-weight: 600;
+        }
+
+        @media (max-width: 1200px) {
+            .culture-slide {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 92%;
+                height: 90vh;
+            }
+            
+            .culture-slide {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🦘 Australian Culture</h1>
-        <div class="culture-grid">
-            <div class="culture-card">
-                <img src="https://source.unsplash.com/800x600/?australian-outback" alt="Outback Life" class="culture-image">
-                <div class="culture-info">
-                    <h2>Outback Life</h2>
-                    <p>Experience the rugged beauty and unique lifestyle of the Australian Outback</p>
+        <div class="culture-section">
+            <div class="culture-slide active" id="culture-1">
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?aboriginal-art" alt="Aboriginal Culture">
+                    </div>
+                    <div class="culture-info">
+                        <h2>🎨 Aboriginal Culture</h2>
+                        <p>The world's oldest living culture, with rich traditions, dreamtime stories, and ancient art spanning over 65,000 years.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?australian-cricket" alt="Sports">
+                    </div>
+                    <div class="culture-info">
+                        <h2>🏏 Sports</h2>
+                        <p>From cricket and rugby to surfing and swimming, sports are integral to Australian lifestyle and culture.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?australian-outback" alt="Outback">
+                    </div>
+                    <div class="culture-info">
+                        <h2>🌅 Outback Life</h2>
+                        <p>Experience the rugged beauty and unique lifestyle of the Australian Outback, where mateship and resilience thrive.</p>
+                    </div>
                 </div>
             </div>
-            <!-- Add more culture cards for Aboriginal culture, sports, etc. -->
+            <div class="culture-slide" id="culture-2">
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?bondi-beach" alt="Beach Life">
+                    </div>
+                    <div class="culture-info">
+                        <h2>🏖️ Beach Life</h2>
+                        <p>Australia's beach culture, from surfing and swimming to the iconic Bondi Beach lifestyle.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?australian-cafe" alt="Cafe Culture">
+                    </div>
+                    <div class="culture-info">
+                        <h2>☕ Cafe Culture</h2>
+                        <p>World-class coffee and brunch scene, with Melbourne leading the way in cafe innovations.</p>
+                    </div>
+                </div>
+                <div class="culture-card">
+                    <div class="culture-image">
+                        <img src="https://source.unsplash.com/800x600/?australian-festival" alt="Festivals">
+                    </div>
+                    <div class="culture-info">
+                        <h2>🎊 Festivals</h2>
+                        <p>Vibrant celebrations from Sydney's New Year's Eve to multicultural festivals across the country.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-controls">
+            <button class="slide-btn active" data-slide="culture-1">1</button>
+            <button class="slide-btn" data-slide="culture-2">2</button>
         </div>
     </div>
+
+    <script>
+        const slideButtons = document.querySelectorAll('.slide-btn');
+        const slides = document.querySelectorAll('.culture-slide');
+        let slideInterval;
+
+        function startAutoSlide() {
+            slideInterval = setInterval(() => {
+                const currentSlide = document.querySelector('.culture-slide.active');
+                const currentBtn = document.querySelector('.slide-btn.active');
+                const nextSlide = currentSlide.nextElementSibling || slides[0];
+                const nextBtn = currentBtn.nextElementSibling || slideButtons[0];
+
+                currentSlide.classList.remove('active');
+                currentBtn.classList.remove('active');
+                nextSlide.classList.add('active');
+                nextBtn.classList.add('active');
+            }, 5000);
+        }
+
+        slideButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                clearInterval(slideInterval);
+                const targetId = button.dataset.slide;
+                
+                slides.forEach(slide => slide.classList.remove('active'));
+                slideButtons.forEach(btn => btn.classList.remove('active'));
+                
+                document.getElementById(targetId).classList.add('active');
+                button.classList.add('active');
+                
+                startAutoSlide();
+            });
+        });
+
+        startAutoSlide();
+    </script>
 </body>
 </html>
