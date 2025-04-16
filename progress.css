@@ -388,7 +388,7 @@
     }
 }
 
-// Add new helper class for positions
+
 .snowflake:nth-child(1) { --final-position: 10%; }
 .snowflake:nth-child(2) { --final-position: 20%; }
 .snowflake:nth-child(3) { --final-position: 30%; }
