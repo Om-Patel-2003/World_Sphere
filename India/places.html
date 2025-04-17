@@ -88,78 +88,115 @@
             height: calc(100% - 2vh);
             margin: 1vh 0;
             opacity: 0;
-            transform: translateX(100%);
-            transition: all 0.5s ease;
+            transform: translateX(100%) perspective(1000px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            background: linear-gradient(135deg, 
+                rgba(255,255,255,0.1) 0%,
+                rgba(255,153,51,0.1) 50%,
+                rgba(19,136,8,0.1) 100%
+            );
+            border-radius: 25px;
+            padding: 3rem;
+            border: 1px solid rgba(255,153,51,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
         }
 
         .wonder-card.active {
             opacity: 1;
-            transform: translateX(0);
+            transform: translateX(0) perspective(1000px) rotateY(0);
         }
 
         .wonder-card.prev {
             opacity: 0;
-            transform: translateX(-100%);
+            transform: translateX(-100%) perspective(1000px) rotateY(-30deg);
         }
 
-        .wonder-image {
-            position: relative;
-            height: 60%;
-            overflow: hidden;
+        .wonder-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            color: var(--white);
         }
 
-        .wonder-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .wonder-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--saffron);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .wonder-info p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 1rem 0;
+            color: var(--white);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .wonder-card:hover .wonder-info {
+            transform: translateZ(80px);
         }
 
         .play-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.9);
-            width: 60px;
-            height: 60px;
+            position: relative;
+            width: 80px;  /* reduced from 120px */
+            height: 80px; /* reduced from 120px */
+            background: linear-gradient(45deg, var(--saffron), #FFA500);
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 1.5rem auto;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .play-button::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--saffron) 0%, transparent 70%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover::before {
+            opacity: 0.5;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 0.5; }
+        }
+
+        .play-button i {
+            color: white;
+            font-size: 3rem;
+            transform: translateX(4px);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
             transition: all 0.3s ease;
         }
 
         .play-button:hover {
-            background: var(--saffron);
-            transform: translate(-50%, -50%) scale(1.1);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255,153,51,0.4);
         }
 
-        .play-button i {
-            color: #000;
-            font-size: 24px;
-        }
-
-        .wonder-info {
-            padding: 10px 20px 5px;  /* Reduced bottom padding */
-            color: var(--white);
-            margin-top: auto;  /* Push to bottom */
-        }
-
-        .wonder-info h2 {
-            color: var(--saffron);
-            margin-bottom: 10px;  /* Reduced margin */
-            font-size: 2rem;
-        }
-
-        .wonder-info p {
-            margin: 0;
-            margin-bottom: 15px;   /* Remove default paragraph margin */
-            line-height: 1.4;  /* Slightly reduced line height */
+        .play-button:hover i {
+            transform: translateX(6px);
         }
 
         /* Modal styles */
@@ -173,7 +210,7 @@
             background: rgba(0, 0, 0, 0.95);
             z-index: 1000;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .modal.show {
@@ -183,14 +220,11 @@
         .modal-content {
             position: relative;
             width: 90%;
-            max-width: 1200px;
-            margin: 30px auto;
-            transition: all 0.5s ease;
-            transform: scale(0.7);
-        }
-
-        .modal.show .modal-content {
-            transform: scale(1);
+            max-width: 1000px; /* reduced from 1400px */
+            margin: 8vh auto; /* Increased from 2vh to 8vh to add more top space */
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.7) translateY(50px);
+            padding: 20px; /* Added padding around content */
         }
 
         .close-modal {
@@ -217,11 +251,33 @@
 
         .video-container {
             position: relative;
-            padding-bottom: 56.25%;
+            padding-bottom: 52.25%; /* Reduced from 56.25% to make video slightly shorter */
             height: 0;
             background: #000;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            margin: 20px 0; /* Added margin top and bottom */
+        }
+
+        .video-container video,
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-container.loaded video,
+        .video-container.loaded iframe {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .video-container:hover {
+            transform: perspective(1000px) translateZ(20px);
         }
 
         .video-container iframe {
@@ -276,10 +332,24 @@
             }
 
             .wonder-info h2 {
+                font-size: 1.8rem;
+            }
+
+            .wonder-info p {
+                font-size: 1rem;
+            }
+
+            .play-button {
+                width: 60px;
+                height: 60px;
+            }
+
+            .play-button i {
                 font-size: 1.5rem;
             }
 
             .modal-content {
+                margin: 15vh auto; /* Even more top space on mobile */
                 width: 95%;
             }
 
@@ -403,106 +473,85 @@
             </button>
             <!-- Taj Mahal -->
             <div class="wonder-card">
-                <div class="wonder-image">
-                    <img src="https://source.unsplash.com/800x600/?taj-mahal" alt="Taj Mahal">
-                    <div class="play-button" data-video="https://www.youtube.com/embed/49HTIoCccDY">
-                        <i class="fas fa-play"></i>
-                    </div>
-                </div>
                 <div class="wonder-info">
                     <h2>Taj Mahal</h2>
                     <p>📍 Agra, Uttar Pradesh<br>
                     The ivory-white marble mausoleum, built between 1632-1653, is considered the jewel of Mughal architecture in India.</p>
+                    <div class="play-button" data-video="./india/taj_mahal.mp4">
+                        <i class="fas fa-play"></i>
+                    </div>
                 </div>
             </div>
         
                 <!-- Konark Sun Temple -->
                 <div class="wonder-card">
-                    <div class="wonder-image">
-                        <img src="https://source.unsplash.com/800x600/?konark-temple" alt="Konark Sun Temple">
-                        <div class="play-button" data-video="https://www.youtube.com/embed/Y_1hxgn_0Ig">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
                     <div class="wonder-info">
                         <h2>Konark Sun Temple</h2>
                         <p>📍 Odisha<br>
                         A 13th-century temple dedicated to the Sun God, designed as a massive chariot with intricate stone carvings.</p>
+                        <div class="play-button" data-video="./india/konark_sun_temple.mp4">
+                            <i class="fas fa-play"></i>
+                        </div>
                     </div>
                 </div>
         
                 <!-- Khajuraho Temples -->
                 <div class="wonder-card">
-                    <div class="wonder-image">
-                        <img src="https://source.unsplash.com/800x600/?khajuraho" alt="Khajuraho Temples">
-                        <div class="play-button" data-video="https://www.youtube.com/embed/0GZKy0WIeGE">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
                     <div class="wonder-info">
                         <h2>Khajuraho Temples</h2>
                         <p>📍 Madhya Pradesh<br>
                         Famous for their nagara-style architectural symbolism and erotic sculptures, built during the Chandela dynasty.</p>
+                        <div class="play-button" data-video="./india/khajuraho.mp4">
+                            <i class="fas fa-play"></i>
+                        </div>
                     </div>
                 </div>
         
                 <!-- Hampi -->
                 <div class="wonder-card">
-                    <div class="wonder-image">
-                        <img src="https://source.unsplash.com/800x600/?hampi" alt="Hampi">
-                        <div class="play-button" data-video="https://www.youtube.com/embed/RUtH3BXJoJ4">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
                     <div class="wonder-info">
                         <h2>Hampi</h2>
                         <p>📍 Karnataka<br>
                         The ancient capital of the Vijayanagara Empire, known for its stunning ruins, temples, and boulder-strewn landscape.</p>
+                        <div class="play-button" data-video="./india/hampi.mp4">
+                            <i class="fas fa-play"></i>
+                        </div>
                     </div>
                 </div>
         
                 <!-- Ajanta Caves -->
                 <div class="wonder-card">
-                    <div class="wonder-image">
-                        <img src="https://source.unsplash.com/800x600/?ajanta-caves" alt="Ajanta Caves">
-                        <div class="play-button" data-video="https://www.youtube.com/embed/pTU9FSpKn9c">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
                     <div class="wonder-info">
                         <h2>Ajanta Caves</h2>
                         <p>📍 Maharashtra<br>
                         Rock-cut cave monuments dating from the 2nd century BCE, featuring Buddhist artwork and ancient paintings.</p>
+                        <div class="play-button" data-video="./india/nalanda.mp4">
+                            <i class="fas fa-play"></i>
+                        </div>
                     </div>
                 </div>
         
                 <!-- Mahabalipuram -->
                 <div class="wonder-card">
-                    <div class="wonder-image">
-                        <img src="https://source.unsplash.com/800x600/?mahabalipuram" alt="Mahabalipuram">
-                        <div class="play-button" data-video="https://www.youtube.com/embed/YpYJEI3wWyE">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
                     <div class="wonder-info">
                         <h2>Mahabalipuram</h2>
                         <p>📍 Tamil Nadu<br>
                         A 7th-century port city featuring rathas (temples in the form of chariots), mandapas, and the famous Shore Temple.</p>
+                        <div class="play-button" data-video="./india/mahabalipuram.mp4">
+                            <i class="fas fa-play"></i>
+                        </div>
                     </div>
                 </div>
         
                 <!-- Golden Temple -->
                 <div class="wonder-card">
-                    <div class="wonder-image">
-                        <img src="https://source.unsplash.com/800x600/?golden-temple-amritsar" alt="Golden Temple">
-                        <div class="play-button" data-video="https://www.youtube.com/embed/ZEf7qxKFyNI">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
                     <div class="wonder-info">
                         <h2>Golden Temple</h2>
                         <p>📍 Amritsar, Punjab<br>
                         The holiest Gurdwara of Sikhism, known for its distinctive gold-plated architecture and spiritual significance.</p>
+                        <div class="play-button" data-video="./india/golden_temple.mp4">
+                            <i class="fas fa-play"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -516,6 +565,7 @@
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <div class="video-container">
+                <video controls></video>
                 <iframe frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
@@ -583,12 +633,34 @@
         document.querySelectorAll('.play-button').forEach(button => {
             button.addEventListener('click', () => {
                 const videoUrl = button.getAttribute('data-video');
-                iframe.src = videoUrl;
+                const videoElement = modal.querySelector('video');
+                const iframeElement = modal.querySelector('iframe');
+                const videoContainer = modal.querySelector('.video-container');
+                
+                videoContainer.classList.remove('loaded');
+                
+                if (videoUrl.endsWith('.mp4')) {
+                    videoElement.style.display = 'block';
+                    iframeElement.style.display = 'none';
+                    videoElement.src = videoUrl;
+                    
+                    videoElement.onloadeddata = () => {
+                        videoContainer.classList.add('loaded');
+                        videoElement.play();
+                    };
+                } else {
+                    videoElement.style.display = 'none';
+                    iframeElement.style.display = 'block';
+                    iframeElement.src = videoUrl;
+                    
+                    iframeElement.onload = () => {
+                        videoContainer.classList.add('loaded');
+                    };
+                }
+                
                 modal.style.display = 'block';
-                clearInterval(slideInterval); // Pause slideshow
-                setTimeout(() => {
-                    modal.classList.add('show');
-                }, 10);
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => modal.classList.add('show'), 10);
             });
         });
     
@@ -597,8 +669,11 @@
             setTimeout(() => {
                 modal.style.display = 'none';
                 iframe.src = '';
-                resetInterval(); // Resume slideshow
-            }, 500);
+                const video = modal.querySelector('video');
+                if (video) video.src = '';
+                modal.querySelector('.video-container').classList.remove('loaded');
+                document.body.style.overflow = 'auto';
+            }, 300);
         }
     
         // Modal close events
